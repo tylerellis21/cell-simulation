@@ -1,0 +1,10 @@
+build/
+Build/
+
+# External libs (To be submoduled)
+lib/
+
+data/config.json
+data/log.txt
+
+CMakeLists.txt.user
