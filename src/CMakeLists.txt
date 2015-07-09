@@ -51,6 +51,9 @@ set (SRCS
     simulation/genetics/genome.h
     simulation/genetics/genome.cpp
 
+    simulation/genetics/breeder.h
+    simulation/genetics/breeder.cpp
+
     simulation/partitioning/spatialhash.h
     simulation/partitioning/spatialhash.cpp
 
