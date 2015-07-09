@@ -114,6 +114,12 @@ public:
      */
     std::vector<Entity*>& getEntities() { return m_entities; }
 
+    /**
+     * @brief Add an enitity into the world.
+     * @param entity = The entity to add into the world.
+     */
+    void add(Entity* entity);
+
     //TODO (Tyler): Clean this up.
     static NeuralNetwork* m_neuralNetwork;
     static uint32 m_weightCount;

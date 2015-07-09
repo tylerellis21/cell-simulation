@@ -175,7 +175,17 @@ vec2f World::randomWorldPoint()
                  std::sin(theta) * randomFloat(0.0f, m_radius));
 }
 
-bool isPointInWorld(vec2f point)
+void World::add(Entity* entity)
+{
+    // Make sure there is never a null entity added.
+    if (entity == 0) {
+        return;
+    }
+
+    m_entities.push_back(entity);
+}
+
+bool World::isPointInWorld(vec2f point)
 {
     const vec2f delta = point * point;
 
