@@ -11,8 +11,6 @@ NeuralNetwork* World::m_neuralNetwork = 0;
 uint32 World::m_weightCount = 0;
 
 // 8192.0f
-
-
 World::World() :
     m_radius(1024.0f),
     m_spatialHash(m_radius),
@@ -48,9 +46,9 @@ bool World::initialize()
     m_debugText->setCharacterSize(10);
     m_debugText->setColor(sf::Color(198, 198, 128));
 
-    for (int32 i = 0; i < 50; i++) {
+    for (int32 i = 0; i < 1; i++) {
         Cell* newCell = new Cell(Genome(), randomWorldPoint(), *this);
-        newCell->setMass(randomFloat(25.0f, 100.0f));
+        newCell->setMass(100.0f);
         m_entities.push_back(newCell);
     }
 
@@ -126,11 +124,8 @@ void World::update(const float dt)
     }
 }
 
-#include <iostream>
 void World::onDeath(Entity* entity)
 {
-    //std::cout << "entity died with id: " << entity->getId() << std::endl;
-
     if (entity->getType() == type::Cell) {
         m_entities.push_back(new Cell(Genome(), randomWorldPoint(), *this));
 

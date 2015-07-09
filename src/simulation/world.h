@@ -68,7 +68,7 @@ public:
      * @param entity = The entity to check.
      * @return true if the entity is in the world.
      */
-    bool inWorld(Entity* entity);
+    bool isPointInWorld(Entity* entity);
 
     /**
      * @brief Enable or disable the debug data.
