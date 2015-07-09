@@ -112,6 +112,11 @@ public:
      */
     void setVelocity(vec2f velocity) { m_velocity = velocity; }
 
+    /**
+     * @brief Set the radius of the entity.
+     * @param radius = The new radius of the entity.
+     */
+    void setRadius(real32 radius) { m_radius = radius; }
 
 private:
 
