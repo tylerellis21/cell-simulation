@@ -1,8 +1,5 @@
 TODO: 
 
-- Implement a simple scripting interface.
-
-- Better scoring system.
 - Better genome system.
 
 - Add species.
@@ -14,24 +11,27 @@ TODO:
 - Allow similar cells to clump together.
 - Add a trait system.
 - Add death by over eating/drinking.
-- Allow the cells to poop? XD
 
-- Fix the weird lag/test if it is the stream/obs causing the random frame glitch.
-- Fix the camera zoom speed at high zoom levels.
+- Allow the stream to control the simulation? irc commands of sorts. (ROCKER!!)
 
 - Leave a dead carcase when a cell dies and allow other cells to eat or drink from it.
 
 - Some sort of better food if water and food are mixed together (ie more nutirents)
+
 - Different types of food / mixing (ie some are better than others)
 
 - Neonz27 method of breeding!
+
 - Chemical-'markers'-things.
 
 - Give the cells a small field of view.
     - Change the inputs to visual data rather than exact data.
 
 - Give the cells a texture overlay.
+
 - Some sort of natural disaster.
+
+- Implement a simple scripting interface. (I don't know if we really need it?)
 
 - Give the cells some sort of trap (or something that steals from other cells)
 
