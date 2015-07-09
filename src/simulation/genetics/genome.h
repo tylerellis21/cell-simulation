@@ -3,8 +3,10 @@
 
 // Project includes.
 #include "../../typedefs.h"
+#include "../../util/mathutils.h"
 
-// TODO (Tyler): Clean up this class a bit.
+const int32 CELL_SPLIT_RATE_INDEX = 0;
+const int32 CELL_MUTATION_RATE_INDEX = 1;
 
 class Genome
 {
@@ -64,6 +66,26 @@ public:
      * @return the length of the array.
      */
     int32 getLength() const { return m_length; }
+
+    /**
+     * @brief Generate a random inital genome weight.
+     * @return the random weight value.
+     */
+    inline static real32 randomGenomeWeight() { return randomFloat(-1.0f, 1.0f); }
+
+    /**
+     * @brief Unscale a mutation rate to the proper range given a input weight value from -1.0 <-> 1.0
+     * @param mutationRate = The normalized mutation rate.
+     * @return the unscaled mutation rate.
+     */
+     static int32 unscaleMutationRate(real32 mutationRate);
+
+     /**
+      * @brief Unscale a split rate give an input value in the proper range.
+      * @param splitRate = The normalized split rate.
+      * @return the unscaled split rate.
+      */
+     static int32 unscaleSplitRate(real32 splitRate);
 
 private:
 

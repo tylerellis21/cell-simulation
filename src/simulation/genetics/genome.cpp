@@ -5,17 +5,29 @@
 
 // Project includes.
 #include "../world.h"
-#include "../../util/mathutils.h"
+
+// Nex includes.
+#include <nex/math/mathhelper.h>
+
+// Here we are adding two extra values to the genome data.
+// The first two values are the split rate, and the genome mutation rate.
+// The rest of the data corrisponds to the input and output weights and biases.
 
 // Default constructor.
 Genome::Genome() :
-    m_length(World::m_weightCount),
-    m_weights(new real32[World::m_weightCount])
+    m_length(World::m_weightCount + 2),
+    m_weights(new real32[World::m_weightCount + 2])
 {
-    for (uint32 i = 0; i < m_length; i++) {
+    // Set the inital split rate to 10 seconds.
+    m_weights[CELL_SPLIT_RATE_INDEX] = 10.0f / 1000.0f;
+
+    // This is the mutation rate.
+    m_weights[CELL_MUTATION_RATE_INDEX] = 1000.0f / 100000.0f;
+
+    for (uint32 i = 2; i < m_length; i++) {
 
         // TODO (Tyler): Test this value range.
-        m_weights[i] = randomFloat(-500.0f, 500.0f);
+        m_weights[i] = randomGenomeWeight();
     }
 }
 
@@ -81,4 +93,18 @@ Genome& Genome::operator =(Genome&& other)
     }
 
     return *this;
+}
+
+int32 Genome::unscaleMutationRate(real32 mutationRate)
+{
+    mutationRate = (nx::clamp(mutationRate, -1.0f, 1.0f) + 1.0f) * 0.5f;
+
+    return int32(mutationRate * 100000.0f);
+}
+
+int32 Genome::unscaleSplitRate(real32 splitRate)
+{
+    splitRate = (nx::clamp(splitRate, -1.0f, 1.0f) + 1.0f) * 0.5f;
+
+    return int32(splitRate * 1000.0f);
 }
