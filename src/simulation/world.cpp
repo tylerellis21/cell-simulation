@@ -176,7 +176,7 @@ vec2f World::randomWorldPoint()
                  std::sin(theta) * randomFloat(0.0f, m_radius));
 }
 
-bool World::inWorld(Entity* entity)
+bool World::isPointInWorld(Entity* entity)
 {
     // Well a null entity can't exist in the world so ya..
     if (entity == 0) {
