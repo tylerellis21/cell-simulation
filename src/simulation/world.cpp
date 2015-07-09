@@ -167,7 +167,6 @@ void World::render(sf::RenderTarget& target, Camera& camera, const sf::View& tex
     }
 }
 
-
 vec2f World::randomWorldPoint()
 {
     // Generate a random angle between 0 and 2(Pi).
@@ -176,17 +175,19 @@ vec2f World::randomWorldPoint()
                  std::sin(theta) * randomFloat(0.0f, m_radius));
 }
 
-bool World::isPointInWorld(Entity* entity)
+bool isPointInWorld(vec2f point)
+{
+    const vec2f delta = point * point;
+
+    return (delta.x + delta.y <= m_radius * m_radius);
+}
+
+bool World::isEntityInWorld(Entity* entity)
 {
     // Well a null entity can't exist in the world so ya..
     if (entity == 0) {
         return false;
     }
-    const vec2f center(0.0f);
-    const vec2f other = entity->getLocation();
 
-    vec2f delta = center-other;
-    delta = delta * delta;
-
-    return (delta.x + delta.y <= m_radius * m_radius);
+    return isPointInWorld(entity->getLocation());
 }

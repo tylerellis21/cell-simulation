@@ -64,11 +64,18 @@ public:
     vec2f randomWorldPoint();
 
     /**
+     * @brief Check if a point is in the world.
+     * @param point = The point to check.
+     * @return true if the point is in the world.
+     */
+    bool isPointInWorld(vec2f point);
+
+    /**
      * @brief Check if the specified entity is in the world.
      * @param entity = The entity to check.
      * @return true if the entity is in the world.
      */
-    bool isPointInWorld(Entity* entity);
+    bool isEntityInWorld(Entity* entity);
 
     /**
      * @brief Enable or disable the debug data.
