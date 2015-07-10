@@ -10,7 +10,6 @@
 #include "water.h"
 
 #include <sstream>
-#include <iostream>
 
 NeuralNetwork* World::m_neuralNetwork = 0;
 uint32 World::m_weightCount = 0;
@@ -21,8 +20,6 @@ World::World() :
     m_spatialHash(m_radius),
     m_debug(false)
 {
-    std::cout << "world ctor" << std::endl;
-
     // TODO (Tyler): Fine tune the hidden nodes.
     m_neuralNetwork = new NeuralNetwork(11, 8, 4);
     m_weightCount = m_neuralNetwork->getWeightCount();
@@ -30,8 +27,6 @@ World::World() :
 
 World::~World()
 {
-    std::cout << "world dtor" << std::endl;
-
     if (m_neuralNetwork)
         delete m_neuralNetwork;
 
