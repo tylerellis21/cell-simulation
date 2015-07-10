@@ -4,7 +4,7 @@
 
 Camera::Camera() :
     m_mode(mode::Free),
-    m_speed(100.0f),
+    m_speed(250.0f),
     m_zoomSpeed(0.01f),
     m_location(0, 0),
     m_trackingEntity(0)
