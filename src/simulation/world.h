@@ -114,6 +114,8 @@ public:
      */
     std::vector<Entity*>& getEntities() { return m_entities; }
 
+    SpatialHash& getSpatialHash() { return m_spatialHash; }
+
     /**
      * @brief Add an enitity into the world.
      * @param entity = The entity to add into the world.
@@ -173,9 +175,9 @@ private:
     void onDeath(Entity* entity);
 
     /**
-     * @brief Causes the debug entity list to be updated.
+     * @brief Update the entity debug text label.
      */
-    void updateEntityList();
+    void updateEntityText();
 };
 
 #endif // ECOSYSTEM_H_INCLUDE

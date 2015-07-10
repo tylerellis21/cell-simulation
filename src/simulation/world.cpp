@@ -1,4 +1,6 @@
 #include "world.h"
+
+#include "../core/console.h"
 #include "../core/content.h"
 #include "../util/mathutils.h"
 #include "../util/log.h"
@@ -7,24 +9,32 @@
 #include "food.h"
 #include "water.h"
 
+#include <sstream>
+#include <iostream>
+
 NeuralNetwork* World::m_neuralNetwork = 0;
 uint32 World::m_weightCount = 0;
 
 // 8192.0f
 World::World() :
-    m_radius(1024.0f),
+    m_radius(2048.0f),
     m_spatialHash(m_radius),
     m_debug(false)
 {
-    // TODO (Tyler): Fine tune the hidden nodes.
+    std::cout << "world ctor" << std::endl;
 
-    m_neuralNetwork = new NeuralNetwork(11, 22, 3);
+    // TODO (Tyler): Fine tune the hidden nodes.
+    m_neuralNetwork = new NeuralNetwork(11, 8, 4);
     m_weightCount = m_neuralNetwork->getWeightCount();
 }
 
 World::~World()
 {
-    delete m_neuralNetwork;
+    std::cout << "world dtor" << std::endl;
+
+    if (m_neuralNetwork)
+        delete m_neuralNetwork;
+
     m_neuralNetwork = 0;
 }
 
@@ -43,52 +53,41 @@ bool World::initialize()
     m_debugText = new sf::Text();
     m_debugText->setFont(*Content::font);
     m_debugText->setPosition(0.0f, 100.0f);
-    m_debugText->setCharacterSize(10);
-    m_debugText->setColor(sf::Color(198, 198, 128));
+    m_debugText->setCharacterSize(16);
 
-    for (int32 i = 0; i < 1; i++) {
-        Cell* newCell = new Cell(Genome(), randomWorldPoint(), *this);
+    for (int32 i = 0; i < 500; i++) {
+        Cell* newCell = new Cell(1, Genome(), randomWorldPoint(), *this);
         newCell->setMass(100.0f);
         m_entities.push_back(newCell);
     }
 
-    for (int32 i = 0; i < 10; i++)
+    for (int32 i = 0; i < 200; i++)
        m_entities.push_back(new Food(randomWorldPoint(), *this));
-
-    for (int32 i = 0; i < 10; i++)
-       m_entities.push_back(new Water(randomWorldPoint(), *this));
 
     m_spatialHash.buildArray(m_vertexQuadArray, sf::Quads);
     m_spatialHash.buildArray(m_vertexLineArray, sf::Lines);
 
-    updateEntityList();
+    updateEntityText();
 
     return true;
 }
 
 void World::destroy()
 {
+    if (m_debugText)
+        delete m_debugText;
+
     for (auto& entity : m_entities) {
         delete entity;
     }
+
     m_entities.clear();
-}
-
-void World::updateEntityList()
-{
-    std::stringstream ss;
-
-    for (auto& entity : m_entities) {
-
-        ss << "id: " << entity->getId() << ", type: " << entity->getType() << std::endl;
-    }
-
-    m_debugText->setString(ss.str());
 }
 
 void World::update(const float dt)
 {
     bool hasChanged = false;
+    bool entityDied = false;
 
     for (int32 i = m_entities.size() - 1; i >= 0; i--) {
         Entity* entity = m_entities[i];
@@ -111,8 +110,7 @@ void World::update(const float dt)
             m_spatialHash.remove(entity);
 
             delete entity;
-
-            updateEntityList();
+            entityDied = true;
         }
     }
 
@@ -122,12 +120,31 @@ void World::update(const float dt)
         m_spatialHash.buildArray(m_vertexQuadArray, sf::Quads);
         m_spatialHash.buildArray(m_vertexLineArray, sf::Lines);
     }
+
+    if (entityDied) {
+        updateEntityText();
+    }
+}
+
+void World::updateEntityText()
+{
+    std::stringstream sb;
+    sb << "entity count: " << m_entities.size() << ", cell count: " << Cell::m_cellCount;
+    m_debugText->setString(sb.str());
 }
 
 void World::onDeath(Entity* entity)
 {
     if (entity->getType() == type::Cell) {
-        m_entities.push_back(new Cell(Genome(), randomWorldPoint(), *this));
+
+        Cell* cell = (Cell*)entity;
+        if (cell) {
+
+            std::stringstream sb;
+            sb << "entity died at generation: " << cell->getGeneration();
+
+            Console::write(sb.str());
+        }
 
     }
     else if (entity->getType() == type::Resource) {
@@ -161,10 +178,8 @@ void World::render(sf::RenderTarget& target, Camera& camera, const sf::View& tex
         }
     }
 
-    if (m_debug) {
-        target.setView(textView);
-        target.draw(*m_debugText);
-    }
+    target.setView(textView);
+    target.draw(*m_debugText);
 }
 
 vec2f World::randomWorldPoint()
