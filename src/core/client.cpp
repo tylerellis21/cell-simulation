@@ -111,10 +111,10 @@ int Client::start()
     // Run the main loop.
     run();
 
-    m_window.close();
-
     // Destroy content since we are now closing.
     destroy();
+
+    m_window.close();
 
     return 0;
 }
