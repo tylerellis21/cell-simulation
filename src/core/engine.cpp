@@ -12,6 +12,7 @@
 
 // Project includes.
 #include "content.h"
+#include "console.h"
 
 Engine::Engine() :
 
@@ -45,10 +46,11 @@ bool Engine::initialize()
         return false;
     }
 
-    m_debugText.setPosition(1.0f, 1.0f);
-    m_debugText.setCharacterSize(16);
-    m_debugText.setStyle(sf::Text::Bold);
-    m_debugText.setFont(*Content::font);
+    m_debugText = new sf::Text();
+    m_debugText->setPosition(1.0f, 1.0f);
+    m_debugText->setCharacterSize(16);
+    m_debugText->setStyle(sf::Text::Bold);
+    m_debugText->setFont(*Content::font);
 
     m_shader = Content::shader;
 
@@ -63,6 +65,10 @@ bool Engine::initialize()
 
 void Engine::destroy()
 {
+    //if (m_debugText)
+    //   delete m_debugText;
+
+    Console::destroy();
     m_world.destroy();
     Content::destroy();
 }
@@ -135,6 +141,8 @@ void Engine::update(const float dt)
         m_avgUpdateAcc = 0.0f;
     }*/
 
+    Console::update();
+
     if (dt > m_maxDeltaTime) {
         m_maxDeltaTime = dt;
     }
@@ -158,7 +166,7 @@ void Engine::updateDebugInfo()
 
         vec2f cameraLocation = m_camera.getLocation();
         str << "cam offset: (x: " << cameraLocation.x << ", y: " << cameraLocation.y << ")" << std::endl;
-        m_debugText.setString(str.str());
+        m_debugText->setString(str.str());
     }
 }
 
@@ -176,7 +184,9 @@ void Engine::render(sf::RenderTarget& target)
     // Update the view so we see text properly.
     target.setView(m_textView);
 
-    target.draw(m_debugText);
+    target.draw(*m_debugText);
+
+    Console::render(target);
 
     // Reset the average render counter after so many.
     /*if (m_avgRenderCounter > 2500) {

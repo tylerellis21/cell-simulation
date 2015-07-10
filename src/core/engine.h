@@ -102,7 +102,7 @@ private:
     /**
      * @brief Used to display debug information.
      */
-    sf::Text m_debugText;
+    sf::Text* m_debugText;
 
     /**
      * @brief The camera used to control the view of the world.
