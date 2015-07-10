@@ -1,6 +1,13 @@
 TODO: 
 
+- Add a visual indicator for the color and generation of the top cells.
+
+- Add a max generation counter.
+
 - Better genome system.
+- Better trait system.
+
+- Add some traits to the world?
 
 - Add species.
     - Allow breeding between cells of the same species.
@@ -38,6 +45,13 @@ TODO:
 - Setup the git for the nex library and for the cell simulation project.
 
 - Auto config based on the window width.
+
+
+
+- Maybe connect it to agar.io?
+
+
+
 
 - You should make a website where people can bet on which cell will survive the longest.
 
