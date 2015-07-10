@@ -6,7 +6,7 @@
 
 //Static decleration.
 std::ofstream Log::mFileStream;
-LogLevel Log::mLogLevel = LOG_LEVEL_DEBUG;
+LogLevel Log::mLogLevel = LOG_LEVEL_ERROR;
 
 bool Log::initialize(std::string logFilePath)
 {
