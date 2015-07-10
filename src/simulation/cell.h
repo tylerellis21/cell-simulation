@@ -1,6 +1,9 @@
 #ifndef CELL_H_INCLUDE
 #define CELL_H_INCLUDE
 
+// SFML includes.
+#include <SFML/System/Clock.hpp>
+
 // Project includes.
 #include "entity.h"
 #include "genetics/genome.h"
@@ -16,7 +19,9 @@ public:
      * @param location = The location of the cell.
      * @param world = The world to place the cell in.
      */
-    Cell(Genome&& genome, vec2f location, World& world);
+    Cell(int32 generation, Genome&& genome, vec2f location, World& world);
+
+    ~Cell();
 
     /**
      * @brief Occurs when the cell entity is update.
@@ -30,17 +35,38 @@ public:
      */
     void render(sf::RenderTarget& target);
 
+    /**
+     * @brief The number of active cells in the world.
+     */
+    static int32 m_cellCount;
+
+    /**
+     * @brief Get the generation number of this cell.
+     * @return the generation of the cell.
+     */
+    int32 getGeneration() const { return m_generation; }
+
 private:
 
     /**
-     * @brief m_foodAmount
+     * @brief The current generation of the cell.
+     */
+    int32 m_generation;
+
+    /**
+     * @brief The amount of food that the cell currently has.
      */
     real32 m_foodAmount;
 
     /**
-     * @brief m_waterAmount
+     * @brief The time in seconds in at which the cell splits.
      */
-    real32 m_waterAmount;
+    real32 m_splitRate;
+
+    /**
+     * @brief The time used to provide a constant source of input.
+     */
+    real32 time = 0.0f;
 
     /**
      * @brief The genome data for this cell.
@@ -58,9 +84,9 @@ private:
     sf::VertexArray m_foodBar;
 
     /**
-     * @brief Used to draw the water health bar.
+     * @brief The clock used to track the cell splitting processes.
      */
-    sf::VertexArray m_waterBar;
+    sf::Clock m_cellSplitClock;
 
     /**
      * @brief Calculate the vertex data used to render the round info bar.
@@ -94,6 +120,11 @@ private:
      * @brief Calculate the verteices for the direction line.
      */
     void calculateDirectionLine();
+
+    /**
+     * @brief Called in the update method. Calculates when to split the cell.
+     */
+    void splitCell();
 };
 
 #endif // CELL_H_INCLUDE
