@@ -2,8 +2,6 @@ project (cell-simulation)
 
 include_directories (${SFML_INCLUDE} ${NEX_INCLUDE})
 
-#find_library(nex-math STATIC REQUIRED)
-
 set (EXE_NAME cell-simulation)
 
 set (SRCS
@@ -14,6 +12,9 @@ set (SRCS
 
     core/config.h
     core/config.cpp
+
+    core/console.h
+    core/console.cpp
 
     core/client.h
     core/client.cpp

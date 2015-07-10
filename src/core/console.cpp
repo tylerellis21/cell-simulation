@@ -19,9 +19,9 @@ void Console::write(sf::String text, sf::Color color, uint32 size)
 
     if (m_lines.size() > 25) {
 
-        ConsoleItem* item = m_lines[24];
+        ConsoleItem* item = m_lines[0];
         delete item;
-        m_lines.erase(m_lines.begin() + 24);
+        m_lines.erase(m_lines.begin());
     }
 
     // TODO: Test on multi language.

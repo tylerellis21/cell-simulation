@@ -34,7 +34,7 @@ public:
         ConsoleItem(int32 x, int32 creationTime, int32 size, sf::String content, sf::Color color) :
             x(x),
             creationTime(creationTime),
-            lifeTime(10000)
+            lifeTime(50000)
         {
             textItem = new sf::Text();
             textItem->setCharacterSize(size);
@@ -63,7 +63,7 @@ public:
      * @param color = The color of the text (optional)
      * @param size = The size of the text (optional)
      */
-    static void write(sf::String text, sf::Color color = sf::Color::White, uint32 size = 20);
+    static void write(sf::String text, sf::Color color = sf::Color::White, uint32 size = 14);
 
     /**
      * @brief Update the console.
