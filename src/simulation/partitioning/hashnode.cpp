@@ -19,6 +19,8 @@ HashNode::HashNode(int32 x, int32 y) :
     m_bounds.y = y * cell_size;
     m_bounds.width = cell_size;
     m_bounds.height = cell_size;
+
+    m_entities.reserve(10);
 }
 
 void HashNode::add(Entity* entity)
