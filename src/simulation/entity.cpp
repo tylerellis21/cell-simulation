@@ -22,7 +22,8 @@ Entity::Entity(vec2f location, World& world, type::EntityType type) :
     m_lastNode(-10000, -10000),
     m_velocity(vec2f()),
     m_friction(vec2f(1.0f)),
-    m_world(world)
+    m_world(world),
+    m_currentNode(0)
 { }
 
 Entity::~Entity()
@@ -40,7 +41,7 @@ void Entity::update(const float dt)
     m_shape.setPosition(m_location.x, m_location.y);
 
     // Only handle the collison once per entity pair.
-    std::vector<Entity*> collisionList = getNearEntities();
+    std::vector<Entity*> collisionList = getNearEntities(false);
 
     for (auto& entity : collisionList) {
 
@@ -105,12 +106,23 @@ void Entity::render(sf::RenderTarget& target)
     target.draw(m_shape, Content::shader);
 }
 
-std::vector<Entity*> Entity::getNearEntities()
+//Also if you want to further optimize you can try pass the vector from outside,
+
+std::vector<Entity*> Entity::getNearEntities(bool fullSearch)
 {
     std::vector<Entity*> closest;
+    closest.reserve(25);
 
-    for (auto& node : m_hashNodes) {
-        node->query(this, closest);
+    if (fullSearch) {
+
+        for (auto& node : m_hashNodes) {
+            node->query(this, closest);
+        }
+    }
+    else {
+
+        if (m_currentNode)
+            m_currentNode->query(this, closest);
     }
 
     return closest;

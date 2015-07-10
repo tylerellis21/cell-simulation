@@ -206,7 +206,12 @@ protected:
     sf::CircleShape m_shape;
 
     /**
-     * @brief The list of hash node the entity exists in.
+     * @brief The current node that the entity is in.
+     */
+    HashNode* m_currentNode;
+
+    /**
+     * @brief The list of hash node that the entity exists in.
      */
     std::vector<HashNode*> m_hashNodes;
 
@@ -214,7 +219,7 @@ protected:
      * @brief Calculate the entities that are close to this entity.
      * @return the entities that are closest to this entity.
      */
-    std::vector<Entity*> getNearEntities();
+    std::vector<Entity*> getNearEntities(bool fullSearch);
 
 };
 
