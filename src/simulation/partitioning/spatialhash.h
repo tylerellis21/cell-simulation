@@ -42,7 +42,7 @@ private:
     /**
      * @brief The hash nodes used in the spatial hash.
      */
-    std::unordered_map<int64, HashNode*> m_nodes;
+    std::unordered_map<uint64, HashNode*> m_nodes;
 
     /**
      * @brief Add an entity into a node based on the hash position (does do bound checks)
