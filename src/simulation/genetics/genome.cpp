@@ -15,19 +15,24 @@
 
 // Default constructor.
 Genome::Genome() :
-    m_length(World::m_weightCount + 2),
-    m_weights(new real32[World::m_weightCount + 2])
+    m_length(World::m_weightCount + 5),
+    m_weights(new real32[World::m_weightCount + 5])
 {
+    // Move theses first values into a trait class?
+
     // Set the inital split rate to 10 seconds.
-    m_weights[CELL_SPLIT_RATE_INDEX] = 10.0f / 1000.0f;
+    m_weights[CELL_SPLIT_RATE_INDEX] = (((10.0f + randomFloat(-1.0f, 500.0f)) / 500.0f) * 2.0f) - 1.0f;
 
     // This is the mutation rate.
-    m_weights[CELL_MUTATION_RATE_INDEX] = 1000.0f / 100000.0f;
+    m_weights[CELL_MUTATION_RATE_INDEX] = (((100.0f + randomFloat(-50.0f, 100000.0f)) / 100000.0f) * 2.0f) - 1.0f;
 
-    for (uint32 i = 2; i < m_length; i++) {
+    m_weights[CELL_RED_COLOR_INDEX] = randomFloat(0.0f);
+    m_weights[CELL_GREEN_COLOR_INDEX] = randomFloat(0.0f);
+    m_weights[CELL_BLUE_COLOR_INDEX] = randomFloat(0.0f);
 
-        // TODO (Tyler): Test this value range.
-        m_weights[i] = randomGenomeWeight();
+
+    for (uint32 i = 5; i < m_length; i++) {
+        m_weights[i] = Genome::randomGenomeWeight();
     }
 }
 
