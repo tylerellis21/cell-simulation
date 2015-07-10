@@ -1,27 +1,45 @@
 #include "neuralnetwork.h"
 #include "../util/mathutils.h"
+#include <iostream>
 
 NeuralNetwork::NeuralNetwork(uint32 input, uint32 hidden, uint32 output) :
     m_inputCount(input),
     m_hiddenCount(hidden),
     m_outputCount(output)
 {
-    m_inputs = new real32[input];
-    m_inputWeights = createMatrix(input, hidden);
-    m_inputSums = new real32[hidden];
-    m_inputBiases = new real32[hidden];
-    m_inputOutputs = new real32[hidden];
-    m_outputWeights = createMatrix(hidden, output);
-    m_outputSums = new real32[output];
-    m_outputBiases = new real32[output];
-    m_outputs = new real32[output];
+
+    m_inputs = new real32[m_inputCount];
+
+    m_inputWeights = createMatrix(m_inputCount, m_hiddenCount);
+
+    m_inputSums = new real32[m_hiddenCount];
+    m_inputBiases = new real32[m_hiddenCount];
+    m_inputOutputs = new real32[m_hiddenCount];
+
+    m_outputWeights = createMatrix(m_hiddenCount, m_outputCount);
+
+    m_outputSums = new real32[m_outputCount];
+    m_outputBiases = new real32[m_outputCount];
+    m_outputs = new real32[m_outputCount];
+
+    std::cout << "neural network ctor" << std::endl;
 }
 
 NeuralNetwork::~NeuralNetwork()
 {
+    std::cout << "neural network dtor" << std::endl;
+
     delete [] m_inputs;
 
+    for (uint32 i = 0; i < m_inputCount; i++) {
+        std::cout << m_inputs[i] << std::endl;
+    }
+
     deleteMatrix(m_inputWeights, m_inputCount);
+
+    for (uint32 i = 0; i < m_hiddenCount; i++) {
+        std::cout << m_inputSums[i] << std::endl;
+    }
 
     delete [] m_inputSums;
     delete [] m_inputBiases;
@@ -40,56 +58,56 @@ void NeuralNetwork::setWeights(const real32* weights)
 
     int k = 0;
 
-    for (int i = 0; i < m_inputCount; ++i)
-        for (int j = 0; j < m_hiddenCount; ++j)
+    for (uint32 i = 0; i < m_inputCount; ++i)
+        for (uint32 j = 0; j < m_hiddenCount; ++j)
             m_inputWeights[i][j] = weights[k++];
 
-    for (int i = 0; i < m_hiddenCount; ++i)
+    for (uint32 i = 0; i < m_hiddenCount; ++i)
         m_inputBiases[i] = weights[k++];
 
-    for (int i = 0; i < m_hiddenCount; ++i)
+    for (uint32 i = 0; i < m_hiddenCount; ++i)
         for (int j = 0; j < m_outputCount; ++j)
             m_outputWeights[i][j] = weights[k++];
 
-    for (int i = 0; i < m_outputCount; ++i)
+    for (uint32 i = 0; i < m_outputCount; ++i)
         m_outputBiases[i] = weights[k++];
 }
 
 void NeuralNetwork::computeOutputs(real32* xValues)
 {
     // zero
-    for (int i = 0; i < m_inputCount; ++i)
+    for (uint32 i = 0; i < m_hiddenCount; ++i)
         m_inputSums[i] = 0.0;
 
-    for (int i = 0; i < m_outputCount; ++i)
+    for (uint32 i = 0; i < m_outputCount; ++i)
         m_outputSums[i] = 0.0;
 
     // Compute input-to-hidden weighted sums.
 
-    for (int j = 0; j < m_hiddenCount; ++j)
-        for (int i = 0; i < m_inputCount; ++i)
+    for (uint32 j = 0; j < m_hiddenCount; ++j)
+        for (uint32 i = 0; i < m_inputCount; ++i)
             m_inputSums[j] += xValues[i] * m_inputWeights[i][j];
 
     // Add biases to input-to-hidden sums.
-    for (int i = 0; i < m_hiddenCount; ++i)
+    for (uint32 i = 0; i < m_hiddenCount; ++i)
         m_inputSums[i] += m_inputBiases[i];
 
     // Determine input-to-hidden output.
     // Step function
 
-    for (int i = 0; i < m_hiddenCount; ++i)
+    for (uint32 i = 0; i < m_hiddenCount; ++i)
         m_inputOutputs[i] = HyperTanFunction(m_inputSums[i]);
 
     // Compute hidden-to-output weighted sums
-    for (int j = 0; j < m_outputCount; ++j)
-        for (int i = 0; i < m_hiddenCount; ++i)
+    for (uint32 j = 0; j < m_outputCount; ++j)
+        for (uint32 i = 0; i < m_hiddenCount; ++i)
             m_outputSums[j] += m_inputOutputs[i] * m_outputWeights[i][j];
 
     // Add biases to input-to-hidden sums
-    for (int i = 0; i < m_outputCount; ++i)
+    for (uint32 i = 0; i < m_outputCount; ++i)
         m_outputSums[i] += m_outputBiases[i];
 
     // Determine hidden-to-output result HyperTanFunction
-    for (int i = 0; i < m_outputCount; ++i)
+    for (uint32 i = 0; i < m_outputCount; ++i)
         m_outputs[i] = HyperTanFunction(m_outputSums[i]);
 }

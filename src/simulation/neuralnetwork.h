@@ -3,6 +3,7 @@
 
 // Standard includes.
 #include <cmath>
+#include <memory>
 
 // Project includes.
 #include "../typedefs.h"
