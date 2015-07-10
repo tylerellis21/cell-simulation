@@ -25,7 +25,7 @@ bool intersects(const vec2f& circleA, const real32 radiusA, const vec2f& circleB
 
 real32 randomFloat(real32 min, real32 max)
 {
-    const real32 range = (max-min) + 1.0f;
+    const real32 range = (max-min);
     return min + (range * rand() / (RAND_MAX + 1.0f));
 }
 
@@ -41,6 +41,8 @@ real32 normalize(real32 value, const real32 min, const real32 max)
 {
     return (value - min) / (max - min);
 }
+
+//TODO: (Tyler) Convert this into the proper std::pointer
 
 real32** createMatrix(const uint32 width, const uint32 height)
 {
