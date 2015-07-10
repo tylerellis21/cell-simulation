@@ -8,7 +8,7 @@ Food::Food(vec2f location, World& world) :
     m_mass = 4.0f;
     //m_shape.setFillColor(sf::Color(216, 202, 63));
     m_shape.setFillColor(sf::Color(236, 92, 116));
-    m_shape.setOutlineColor(sf::Color::Black);
-    m_shape.setOutlineThickness(0.2f);
+    //m_shape.setOutlineColor(sf::Color::Black);
+    //m_shape.setOutlineThickness(0.2f);
     m_shape.setPosition(m_location.x, m_location.y);
 }
