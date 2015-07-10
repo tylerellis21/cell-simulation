@@ -16,7 +16,7 @@ using nx::rectf;
 
 // Adjust this based on the maximum cell size and the radius of the world.
 // Kind of a balancing act really.
-const int32 cell_size = 256.0f;
+const int32 cell_size = 128.0f;
 
 class HashNode
 {
