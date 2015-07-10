@@ -41,7 +41,14 @@ void SpatialHash::update(Entity* entity)
 
     const vec2i node = calculateNode(entity->getLocation());
 
-    addToNode(node, entity);
+    HashNode* currentNode = m_nodes[hash(node.x, node.y)];
+    if (currentNode) {
+        currentNode->add(entity);
+    }
+
+    // Make sure we update the entities current node.
+    entity->m_currentNode = currentNode;
+
 
     // Check if the node actually exists.
 
