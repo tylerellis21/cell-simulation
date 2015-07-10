@@ -27,7 +27,7 @@ void Resource::update(const float dt)
     m_shape.setRadius(m_radius);
     m_shape.setOrigin(m_radius, m_radius);
 
-    m_amount += 0.01f * dt;
+    //m_amount += 0.01f * dt;
 
     // Don't let the resource over regenerate.
     if (m_amount > m_max) {
@@ -35,7 +35,7 @@ void Resource::update(const float dt)
     }
 
     // Die when out of resource.
-    if (m_amount <= 0.9f) {
+    if (m_amount < 1.0f) {
         m_alive = false;
     }
 
