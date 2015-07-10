@@ -15,18 +15,29 @@ set (SFML_BUILD_DOC false)
 set (SFML_BUILD_EXAMPLES false)
 set (BUILD_SHARED_LIBS false)
 
-# Enable C++11
-if (APPLE)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11 -stdlib=libc++")
-elseif (UNIX)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11")
-elseif (WIN32)
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+if(COMPILER_SUPPORTS_CXX11)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11")
+elseif(COMPILER_SUPPORTS_CXX0X)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++0x")
+else()
+        message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+endif()
 
-	if (MINGW)
-        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11")
-	endif()
+# Enable C++11
+#if (APPLE)
+#    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11 -stdlib=libc++")
+#elseif (UNIX)
+#    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11")
+#elseif (WIN32)#
+#
+#    if (MINGW)
+#        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11")
+#    endif()
 	
-endif(APPLE)
+#endif(APPLE)
 
 # Build static stdlibs on GCC and MingW
 if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
@@ -37,14 +48,16 @@ if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
     endif(WIN32)
 endif()
 
-set (SFML_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/lib/sfml/include")
-set (SFML_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/lib/sfml/include")
+#if (${CMAKE_BUILD_TYPE} EQUAL "Release")
+#    set (${CMAKE_CXX_FLAGS} "-O")
+#endif()
 
+set (SFML_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/lib/sfml/include")
 set (SFML_LIBS 
-    sfml-audio 
-    sfml-graphics 
-    sfml-window 
     sfml-network
+    sfml-audio 
+    sfml-graphics
+    sfml-window
     sfml-system
 )
 
