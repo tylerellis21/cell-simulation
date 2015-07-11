@@ -21,25 +21,13 @@ NeuralNetwork::NeuralNetwork(uint32 input, uint32 hidden, uint32 output) :
     m_outputSums = new real32[m_outputCount];
     m_outputBiases = new real32[m_outputCount];
     m_outputs = new real32[m_outputCount];
-
-    std::cout << "neural network ctor" << std::endl;
 }
 
 NeuralNetwork::~NeuralNetwork()
 {
-    std::cout << "neural network dtor" << std::endl;
-
     delete [] m_inputs;
 
-    for (uint32 i = 0; i < m_inputCount; i++) {
-        std::cout << m_inputs[i] << std::endl;
-    }
-
     deleteMatrix(m_inputWeights, m_inputCount);
-
-    for (uint32 i = 0; i < m_hiddenCount; i++) {
-        std::cout << m_inputSums[i] << std::endl;
-    }
 
     delete [] m_inputSums;
     delete [] m_inputBiases;
