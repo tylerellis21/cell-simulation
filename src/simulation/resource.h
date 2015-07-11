@@ -6,6 +6,9 @@
 
 namespace type {
 
+/**
+ * @brief Describes the type of resource.
+ */
 enum ResourceType
 {
     Food = 0,
@@ -14,6 +17,9 @@ enum ResourceType
 
 }
 
+/**
+ * @brief This class represents a drainable world resource.
+ */
 class Resource : public Entity
 {
 public:
@@ -34,7 +40,7 @@ public:
 
     /**
      * @brief Get the type of resource that this is.
-     * @return the resource type.
+     * @return The resource type.
      */
     type::ResourceType getResourceType() const { return m_resourceType; }
 
@@ -47,7 +53,7 @@ public:
 
     /**
      * @brief Get the current amount of resource available.
-     * @return the amount of resource available.
+     * @return The amount of resource available.
      */
     real32 getAmount() const { return m_amount; }
 
@@ -65,7 +71,7 @@ protected:
     real32 m_amount;
 
     /**
-     * @brief m_max
+     * @brief The max amount of resource value possible.
      */
     real32 m_max;
 

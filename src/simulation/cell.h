@@ -9,6 +9,9 @@
 #include "genetics/genome.h"
 #include "resource.h"
 
+/**
+ * @brief This class represents a cell in the simulation world.
+ */
 class Cell : public Entity
 {
 public:
@@ -42,7 +45,7 @@ public:
 
     /**
      * @brief Get the generation number of this cell.
-     * @return the generation of the cell.
+     * @return The generation of the cell.
      */
     int32 getGeneration() const { return m_generation; }
 

@@ -20,6 +20,9 @@
 #include "genetics/genome.h"
 #include "partitioning/spatialhash.h"
 
+/**
+ * @brief The world is responsible for managing the entities.
+ */
 class World
 {
 public:
@@ -36,7 +39,7 @@ public:
 
     /**
      * @brief Initialize the world and load any needed content.
-     * @return true if sucessful.
+     * @return True if sucessful.
      */
     bool initialize();
 
@@ -59,21 +62,21 @@ public:
 
     /**
      * @brief Generate a random point that is within the world.
-     * @return the random point in the world.
+     * @return The random point in the world.
      */
     vec2f randomWorldPoint();
 
     /**
      * @brief Check if a point is in the world.
      * @param point = The point to check.
-     * @return true if the point is in the world.
+     * @return True if the point is in the world.
      */
     bool isPointInWorld(vec2f point);
 
     /**
      * @brief Check if the specified entity is in the world.
      * @param entity = The entity to check.
-     * @return true if the entity is in the world.
+     * @return True if the entity is in the world.
      */
     bool isEntityInWorld(Entity* entity);
 
@@ -85,35 +88,39 @@ public:
 
     /**
      * @brief Get the current debugging state of the world.
-     * @return the current debugging state.
+     * @return The current debugging state.
      */
     bool getDebug() const { return m_debug; }
 
     /**
      * @brief Get the worlds current radius.
-     * @return the world radius.
+     * @return The world radius.
      */
     real32 getRadius() const { return m_radius; }
 
     /**
      * @brief Get the current count of the entities.
-     * @return the current entity count.
+     * @return The current entity count.
      */
     uint32 getEntityCount() const { return m_entities.size(); }
 
     /**
      * @brief Get an entity by the specified index. (undefined behavior for out of range indexes)
      * @param index = The index to get the entity of.
-     * @return the entity at that index.
+     * @return The entity at that index.
      */
     Entity* getEntity(uint32 index) { return m_entities[index]; }
 
     /**
      * @brief Get the entity list for the world.
-     * @return a reference to the world entity list.
+     * @return A reference to the world entity list.
      */
     std::vector<Entity*>& getEntities() { return m_entities; }
 
+    /**
+     * @brief Get a reference to the spatial hash.
+     * @return A reference to the spatial hash.
+     */
     SpatialHash& getSpatialHash() { return m_spatialHash; }
 
     /**
@@ -122,8 +129,14 @@ public:
      */
     void add(Entity* entity);
 
-    //TODO (Tyler): Clean this up.
+    /**
+     * @brief The neural network used for the cells processing.
+     */
     static NeuralNetwork* m_neuralNetwork;
+
+    /**
+     * @brief The number of weight values in the neural network.
+     */
     static uint32 m_weightCount;
 
 private:

@@ -4,6 +4,9 @@
 // Project includes.
 #include "resource.h"
 
+/**
+ * @brief A simple water resource.
+ */
 class Water : public Resource
 {
 public:

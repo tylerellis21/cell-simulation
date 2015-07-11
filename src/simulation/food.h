@@ -4,6 +4,9 @@
 // Project includes.
 #include "resource.h"
 
+/**
+ * @brief This class represents a food resource in the world.
+ */
 class Food : public Resource
 {
 public:

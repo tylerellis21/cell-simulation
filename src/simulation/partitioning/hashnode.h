@@ -18,6 +18,9 @@ using nx::rectf;
 // Kind of a balancing act really.
 const int32 cell_size = 128.0f;
 
+/**
+ * @brief This class represents on cell node in the spatial hash.
+ */
 class HashNode
 {
 public:
@@ -49,19 +52,19 @@ public:
 
     /**
      * @brief Get the x coordinate of the node.
-     * @return the x coordinate node.
+     * @return The x coordinate node.
      */
     int32 getX() const { return m_x; }
 
     /**
      * @brief Get the y coordinate of the node.
-     * @return the y coordinate node.
+     * @return The y coordinate node.
      */
     int32 getY() const { return m_y; }
 
     /**
      * @brief Get the hash value for this node.
-     * @return the hash value for the node.
+     * @return The hash value for the node.
      */
     uint64 getHash() const { return m_hash; }
 

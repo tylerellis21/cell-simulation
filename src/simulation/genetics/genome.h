@@ -12,6 +12,9 @@ const int32 CELL_RED_COLOR_INDEX = 2;
 const int32 CELL_GREEN_COLOR_INDEX = 3;
 const int32 CELL_BLUE_COLOR_INDEX = 4;
 
+/**
+ * @brief This class stores the weight data used for the nerual network.
+ */
 class Genome
 {
 public:
@@ -42,52 +45,52 @@ public:
     /**
      * @brief The genome copy assignment operator.
      * @param other = The genome to assign to this one.
-     * @return this genome.
+     * @return This genome.
      */
     Genome& operator=(const Genome& other);
 
     /**
      * @brief The genome move assignment operator.
      * @param other = The other genome to move into this one.
-     * @return the new genome.
+     * @return The new genome.
      */
     Genome& operator=(Genome&& other);
 
     /**
      * @brief Get a pointer to the weights which can be written to here.
-     * @return a pointer to the data.
+     * @return A pointer to the data.
      */
     real32* editWeights() { return m_weights; }
 
     /**
      * @brief Get a read only pointer to the weight data.
-     * @return a const pointer to the data.
+     * @return A const pointer to the data.
      */
     const real32* readWeights() const { return m_weights; }
 
     /**
      * @brief Get the length of the genome float array.
-     * @return the length of the array.
+     * @return The length of the array.
      */
     int32 getLength() const { return m_length; }
 
     /**
      * @brief Generate a random inital genome weight.
-     * @return the random weight value.
+     * @return The random weight value.
      */
     inline static real32 randomGenomeWeight() { return randomFloat(); }
 
     /**
      * @brief Unscale a mutation rate to the proper range given a input weight value from -1.0 <-> 1.0
      * @param mutationRate = The normalized mutation rate.
-     * @return the unscaled mutation rate.
+     * @return The unscaled mutation rate.
      */
      static int32 unscaleMutationRate(real32 mutationRate);
 
      /**
       * @brief Unscale a split rate give an input value in the proper range.
       * @param splitRate = The normalized split rate.
-      * @return the unscaled split rate.
+      * @return The unscaled split rate.
       */
      static int32 unscaleSplitRate(real32 splitRate);
 

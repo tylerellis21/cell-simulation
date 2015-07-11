@@ -4,6 +4,9 @@
 // Project includes.
 #include "genome.h"
 
+/**
+ * @brief This class handles the genome breeding.
+ */
 class Breeder
 {
 public:
@@ -11,7 +14,7 @@ public:
     /**
      * @brief Replicate the parent genome with random mutations.
      * @param parent = The parent genome.
-     * @return the replicated genome.
+     * @return The replicated genome.
      */
     static Genome replicate(const Genome& parent);
 };

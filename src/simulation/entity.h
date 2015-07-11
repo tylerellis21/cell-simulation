@@ -19,6 +19,9 @@ class HashNode;
 
 namespace type {
 
+/**
+ * @brief Describes the type of entites.
+ */
 enum EntityType
 {
     Cell = 0,
@@ -27,6 +30,9 @@ enum EntityType
 
 }
 
+/**
+ * @brief The entity class does all of the based physics/collsion along with controlling the spatial hash.
+ */
 class Entity
 {
 public:
@@ -60,25 +66,25 @@ public:
 
     /**
      * @brief Get the unique id of the entity.
-     * @return the unique id of the entity.
+     * @return The unique id of the entity.
      */
     uint32 getId() const { return m_id; }
 
     /**
      * @brief Get the type id of this entity.
-     * @return the type of entity.
+     * @return The type of entity.
      */
     type::EntityType getType() const { return m_type; }
 
     /**
      * @brief Get the state of the entity.
-     * @return true if the entity is alive.
+     * @return True if the entity is alive.
      */
     bool isAlive() const { return m_alive; }
 
     /**
      * @brief Update the hash map for this entity.
-     * @return true if the entity needs a hash map update.
+     * @return True if the entity needs a hash map update.
      */
     bool updateHash() const { return m_hashUpdate; }
 
@@ -96,13 +102,13 @@ public:
 
     /**
      * @brief Get the current radius of the entity.
-     * @return the radius of the entity.
+     * @return The radius of the entity.
      */
     real32 getRadius() const { return m_radius; }
 
     /**
      * @brief Get the location of the entity.
-     * @return the current entity location.
+     * @return The current entity location.
      */
     vec2f getLocation() const { return m_location; }
 
@@ -138,7 +144,7 @@ private:
     void handleCollision(Entity* a, Entity* b);
 
     /**
-     * @brief This method gets called when we collided with another entity.
+     * @brief This method gets called when we collided with another entity, allows each entity to handle collisons as needed.
      * @param other = The other entity that we collided with.
      */
     virtual void onCollision(Entity* other) { }
@@ -217,6 +223,7 @@ protected:
 
     /**
      * @brief Calculate the entities that are close to this entity.
+     * @param fullSearch = Should we search all of the nodes the entity exists in?
      * @return the entities that are closest to this entity.
      */
     std::vector<Entity*> getNearEntities(bool fullSearch);

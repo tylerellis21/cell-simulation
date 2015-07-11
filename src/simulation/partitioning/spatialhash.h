@@ -8,6 +8,9 @@
 // Project includes.
 #include "hashnode.h"
 
+/**
+ * @brief This class is used to divide the world in to nodes to speed up collision checks.
+ */
 class SpatialHash
 {
 public:
@@ -23,6 +26,11 @@ public:
      */
     ~SpatialHash();
 
+    /**
+     * @brief Build the vertex data used to debug the spatial hash.
+     * @param array = The vertex array to store the data.
+     * @param type = The primitive type to use.
+     */
     void buildArray(sf::VertexArray& array, sf::PrimitiveType type);
 
     /**
