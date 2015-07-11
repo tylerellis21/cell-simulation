@@ -27,6 +27,9 @@ enum CameraMode {
 
 }
 
+/**
+ * @brief This class controls the view of the simulation.
+ */
 class Camera
 {
 public:
