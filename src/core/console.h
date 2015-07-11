@@ -15,6 +15,9 @@
 #include "../typedefs.h"
 #include "content.h"
 
+/**
+ * @brief This class is used to display debug text in the window.
+ */
 class Console
 {
 public:
@@ -24,13 +27,34 @@ public:
      */
     struct ConsoleItem
     {
+        /**
+         * @brief x offset of the text item.
+         */
         int32 x;
 
+        /**
+         * @brief The time the console item was created.
+         */
         int32 creationTime;
+
+        /**
+         * @brief The amount of time the console item stays alive.
+         */
         int32 lifeTime;
 
+        /**
+         * @brief The actual text item used to render the text string.
+         */
         sf::Text* textItem;
 
+        /**
+         * @brief Default console item destructor.
+         * @param x = The x offset of the text time.
+         * @param creationTime = The time the text item was created.
+         * @param size = The size of the text item.
+         * @param content = The text in the string.
+         * @param color = The color of the text.
+         */
         ConsoleItem(int32 x, int32 creationTime, int32 size, sf::String content, sf::Color color) :
             x(x),
             creationTime(creationTime),

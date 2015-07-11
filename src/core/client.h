@@ -6,6 +6,9 @@
 
 #include "engine.h"
 
+/**
+ * @brief The client class does all of the inital setup, running and destruction.
+ */
 class Client
 {
 public:
@@ -44,7 +47,7 @@ private:
 
     /**
      * @brief Initialize the client and load any needed content.
-     * @return true if sucessful.
+     * @return True if sucessful.
      */
     bool initialize();
 
@@ -55,7 +58,7 @@ private:
 
     /**
      * @brief Apply the display settings from the config class.
-     * @return true if sucessful.
+     * @return True if sucessful.
      */
     bool applyDisplaySettings();
 

@@ -8,6 +8,9 @@
 #include "../util/log.h"
 #include "../util/picojson.h"
 
+/**
+ * @brief This holds the config values which may be loaded from the config.json file.
+ */
 class Config
 {
 public:
@@ -37,22 +40,34 @@ public:
 
 private:
 
-    // Antialiasing level
+    /**
+     * @brief The level of anti-aliasing for the renderer.
+     */
     static int m_aaLevel;
 
-    // Width of the window.
+    /**
+     * @brief The default width of the window.
+     */
     static int m_width;
 
-    // Height of the window.
+    /**
+     * @brief The default height of the window.
+     */
     static int m_height;
 
-    // FPS we want to run at, -1 for no limit.
+    /**
+     * @brief The fps to run the game at, (<=0 for no limit)
+     */
     static int m_fps;
 
-    // True for full-screen, false for window.
+    /**
+     * @brief The flag to specify if we use a fullscreen window.
+     */
     static bool m_fullscreen;
 
-    // Whether we use vsync or not.
+    /**
+     * @brief The flag to specify if we use vsync.
+     */
     static bool m_vsync;
 
 }; //class Config

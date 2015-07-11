@@ -16,6 +16,9 @@ using nx::vec2f;
 namespace mode
 {
 
+/**
+ * @brief Defines the usable modes for the camera.
+ */
 enum CameraMode {
 
     Free = 0,
@@ -60,13 +63,13 @@ public:
 
     /**
      * @brief Get the view for the camera.
-     * @return the cameras view.
+     * @return The cameras view.
      */
     sf::View getView() const { return m_view; }
 
     /**
      * @brief Get the current mode of the camera.
-     * @return the current camera mode.
+     * @return The current camera mode.
      */
     mode::CameraMode getMode() const { return m_mode; }
 
@@ -78,11 +81,16 @@ public:
 
     /**
      * @brief Get the current location of the camera.
-     * @return the location of the camera.
+     * @return The location of the camera.
      */
     vec2f getLocation() const { return m_location; }
 
+    /**
+     * @brief Apply the keyboard controls to the cameras view.
+     * @param dt = Delta time.
+     */
     void applyKeyboardControls(const float dt);
+
 private:
 
     /**
@@ -114,11 +122,6 @@ private:
      * @brief The entity that the camera is currently tracking if any.
      */
     Entity* m_trackingEntity;
-
-    /**
-     * @brief Apply the keyboard controls to the camera if the proper state is enabled.
-     * @param dt = Delta time.
-     */
 };
 
 #endif // CAMERA_H_INCLUDE

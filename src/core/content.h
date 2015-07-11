@@ -10,13 +10,16 @@ const std::string VERTEX_SHADER_PATH = "../../data/resources/shaders/shader.vert
 const std::string FRAGMENT_SHADER_PATH = "../../data/resources/shaders/shader.frag";
 const std::string FONT_PATH = "../../data/resources/font.ttf";
 
+/**
+ * @brief This class loads and destroys any loaded content.
+ */
 class Content
 {
 public:
 
     /**
      * @brief Load any needed content.
-     * @return true if sucessful.
+     * @return True if sucessful.
      */
     static bool initialize();
 

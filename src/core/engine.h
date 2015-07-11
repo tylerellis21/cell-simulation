@@ -22,6 +22,9 @@
 
 const float ZOOM_MIN = 0.0001f;
 
+/**
+ * @brief The engine is responsible for the camera, world and events.
+ */
 class Engine
 {
 public:
@@ -74,19 +77,49 @@ public:
 
 private:
 
-    // Theses variables are for tracking the average render time
+    /**
+     * @brief The average time it takes to render one frame.
+     */
     real32 m_avgRenderTime;
+
+    /**
+     * @brief The counter used to keep track of the number of values in the render time accumulator.
+     */
     real32 m_avgRenderCounter;
+
+    /**
+     * @brief The accumulator used to keep track of the average render time.
+     */
     real32 m_avgRenderAcc;
 
-    // These variables are for tracking the average update time.
+    /**
+     * @brief The average time it takes to update one frame.
+     */
     real32 m_avgUpdateTime;
+
+    /**
+     * @brief The counter used to keep track of the number of the values in the update time accumulator.
+     */
     real32 m_avgUpdateCounter;
+
+    /**
+     * @brief The accumulator used to keep track of the average update time.
+     */
     real32 m_avgUpdateAcc;
 
+    /**
+     * @brief The last fps value measured.
+     */
     int32 m_fps;
+
+    /**
+     * @brief The number of frames rendered, used to track the fps.
+     */
     int32 m_fpsTicks;
 
+    /**
+     * @brief The timer used to track the fps.
+     */
     sf::Clock m_fpsTimer;
 
     /**
