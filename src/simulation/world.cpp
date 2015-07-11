@@ -50,7 +50,7 @@ bool World::initialize()
     m_debugText->setPosition(0.0f, 100.0f);
     m_debugText->setCharacterSize(16);
 
-    for (int32 i = 0; i < 500; i++) {
+    for (int32 i = 0; i < 1500; i++) {
         Cell* newCell = new Cell(1, Genome(), randomWorldPoint(), *this);
         newCell->setMass(100.0f);
         m_entities.push_back(newCell);
