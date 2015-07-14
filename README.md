@@ -7,6 +7,8 @@ A simulation that mimics the processes of nature to generate better individuates
 
 - sfml >= 2.3
 - nex >= 0.1.0
+- Glew >= 1.12.0
+- Freetype >= 2.6
 
 ## TODO
 
