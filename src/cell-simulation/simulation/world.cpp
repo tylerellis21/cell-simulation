@@ -7,7 +7,6 @@
 
 #include "cell.h"
 #include "food.h"
-#include "water.h"
 
 #include <sstream>
 
@@ -16,7 +15,7 @@ uint32 World::m_weightCount = 0;
 
 // 8192.0f
 World::World() :
-    m_radius(4096.0f),
+    m_radius(2048.0f),
     m_spatialHash(m_radius),
     m_debug(false)
 {
@@ -56,7 +55,7 @@ bool World::initialize()
         m_entities.push_back(newCell);
     }
 
-    for (int32 i = 0; i < 1000; i++)
+    for (int32 i = 0; i < 500; i++)
        m_entities.push_back(new Food(randomWorldPoint(), *this));
 
     m_spatialHash.buildArray(m_vertexQuadArray, sf::Quads);
@@ -151,9 +150,6 @@ void World::onDeath(Entity* entity)
         Resource* resource = (Resource*)entity;
         if (resource->getResourceType() == type::Food) {
             m_entities.push_back(new Food(randomWorldPoint(), *this));
-        }
-        else if (resource->getResourceType() == type::Water) {
-            m_entities.push_back(new Water(randomWorldPoint(), *this));
         }
     }
 }

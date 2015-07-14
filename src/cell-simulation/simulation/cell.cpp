@@ -13,6 +13,10 @@
 #include <limits>
 #include <sstream>
 
+const real32 CELL_MAX_MASS = 100.0f;
+const real32 CELL_MAX_FOOD = 100.0f;
+const real32 CELL_MAX_SIZE = 30.0f;
+
 float IntegerNoise (int n)
 {
   n = (n >> 13) ^ n;
@@ -36,7 +40,7 @@ Cell::Cell(int32 generation, Genome&& genome, vec2f location, World& world) :
     m_shape.setPosition(m_location.x, m_location.y);
     m_shape.setRadius(m_radius);
     m_shape.setOrigin(m_radius, m_radius);
-    m_shape.setPointCount(128);
+    m_shape.setPointCount(32);
 
     m_directionLine.setPrimitiveType(sf::Lines);
     m_foodBar.setPrimitiveType(sf::LinesStrip);
@@ -101,7 +105,7 @@ void Cell::update(const float dt)
 
         normalize(m_rotation, -nx::Pi, nx::Pi),
         normalize(m_radius, 1.0f, 25.0f),
-        normalize(m_foodAmount, 0.0f, 100.0f),
+        normalize(m_foodAmount, 0.0f, CELL_MAX_FOOD),
 
         normalize(foodDist, 0.0f, worldRadius),
         normalize(foodDir, -nx::Pi, nx::Pi),
@@ -132,8 +136,8 @@ void Cell::update(const float dt)
 
     const real32 forward = output[0] * 300.0f;
     const real32 backward = output[1] * 300.0f;
-    const real32 turnLeft = output[2] * 25.0f;//50.0f;
-    const real32 turnRight = output[3] * 25.0f;//50.0f;
+    const real32 turnLeft = output[2] * 25.0f; //50.0f;
+    const real32 turnRight = output[3] * 25.0f; //50.0f;
 
     const real32 turnSum = turnLeft - turnRight;
     const real32 moveSum = forward - backward;
@@ -147,13 +151,13 @@ void Cell::update(const float dt)
     m_foodAmount -= 3.5f * dt;
 
     // Clamp to the specific range.
-    m_foodAmount = nx::clamp(m_foodAmount, 0.0f, 200.0f);
+    m_foodAmount = nx::clamp(m_foodAmount, 0.0f, CELL_MAX_FOOD);
 
     // The cell considered dead when it is out of water, or it has left the world.
     if (m_foodAmount < 1.0f)
         m_alive = false;
 
-    m_radius = ((m_foodAmount) / 200.0f) * 30.0f;
+    m_radius = (m_mass / CELL_MAX_MASS) * CELL_MAX_SIZE;
 
     m_shape.setRadius(m_radius);
     m_shape.setOrigin(m_radius, m_radius);
@@ -167,6 +171,8 @@ void Cell::update(const float dt)
 
     splitCell();
 }
+
+
 
 void Cell::splitCell()
 {
@@ -281,7 +287,6 @@ void Cell::calculateDirectionLine()
 
 void Cell::calculateRoundBar(sf::VertexArray& vertexArray, const sf::Color color, const real32 value, const real32 offset)
 {
-    //TODO: Calculate this as a triangle fan to give more width to the info bars.
     vertexArray.clear();
 
     const real32 pi2 = nx::Pi * 2.0f;
@@ -309,16 +314,23 @@ void Cell::onCollision(Entity* other)
 
         Cell* ocell = (Cell*)other;
 
-        // We are bigger than them.
-        if (ocell->m_radius < m_radius) {
+        // so splitting wouldn't actually make their food level = half because of their new mass
+        // Divide the incoming food by the mass of the cell then add it to the food value
 
-            ocell->m_foodAmount -= 100.0f;
-            m_foodAmount += 90.0f;
+        // TODO: add more size ranges on the food
+
+        // We are bigger than them.
+        if (ocell->m_mass < m_mass) {
+
+            const real32 p1 = (ocell->m_mass / m_mass);
+            const real32 incomingFood = p1 * ocell->m_foodAmount;
+
+            ocell->m_foodAmount -= incomingFood;
+            m_foodAmount += p1 * ocell->m_foodAmount;
         }
         // They are bigger than us
         else {
-            ocell->m_foodAmount += 100.0f;
-            m_foodAmount -= 90.0f;
+
         }
     }
     // Do cell to resource collision.
@@ -327,9 +339,6 @@ void Cell::onCollision(Entity* other)
         Resource* resource = (Resource*)other;
         if (resource->getResourceType() == type::Food) {
             m_foodAmount += resource->consume(100.0f);
-        }
-        else if (resource->getResourceType() == type::Water) {
-            //m_waterAmount += resource->consume(10.0f);
         }
     }
 }

@@ -43,9 +43,6 @@ set (SRCS
     simulation/resource.h
     simulation/resource.cpp
 
-    simulation/water.h
-    simulation/water.cpp
-
     simulation/world.h
     simulation/world.cpp
 
@@ -66,6 +63,21 @@ set (SRCS
 
     mathutils.h
     mathutils.cpp
+
+    irc/ircbot.h
+    irc/ircbot.cpp
+
+    irc/ircuser.h
+    irc/ircuser.cpp
+
+    irc/message/message.h
+    irc/message/message.cpp
+
+    irc/message/inmessage.h
+    irc/message/inmessage.cpp
+
+    irc/message/outmessage.h
+    irc/message/outmessage.cpp
 )
 
 add_executable (${EXE_NAME} ${SRCS})

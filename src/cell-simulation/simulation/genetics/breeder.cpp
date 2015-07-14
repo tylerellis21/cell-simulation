@@ -51,9 +51,9 @@ Genome Breeder::replicate(const Genome& parent)
         }
     }
 
-    std::stringstream sb;
-    sb << "mutation count: " << mutationCount;
-    Console::write(sb.str());
+    //std::stringstream sb;
+    //sb << "mutation count: " << mutationCount;
+    //Console::write(sb.str());
 
     return genome;
 }

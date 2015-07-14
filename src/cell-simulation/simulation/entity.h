@@ -68,13 +68,13 @@ public:
      * @brief Get the unique id of the entity.
      * @return The unique id of the entity.
      */
-    uint32 getId() const { return m_id; }
+    inline uint32 getId() const { return m_id; }
 
     /**
      * @brief Get the type id of this entity.
      * @return The type of entity.
      */
-    type::EntityType getType() const { return m_type; }
+    inline type::EntityType getType() const { return m_type; }
 
     /**
      * @brief Get the state of the entity.
@@ -104,13 +104,13 @@ public:
      * @brief Get the current radius of the entity.
      * @return The radius of the entity.
      */
-    real32 getRadius() const { return m_radius; }
+    inline real32 getRadius() const { return m_radius; }
 
     /**
      * @brief Get the location of the entity.
      * @return The current entity location.
      */
-    vec2f getLocation() const { return m_location; }
+    inline vec2f getLocation() const { return m_location; }
 
     /**
      * @brief Set the velocity of the entity.
