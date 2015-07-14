@@ -1,0 +1,6 @@
+[submodule "SFML"]
+	path = SFML
+	url = https://github.com/SFML/SFML.git
+[submodule "nex"]
+	path = nex
+	url = https://github.com/tylerellis21/nex.git
