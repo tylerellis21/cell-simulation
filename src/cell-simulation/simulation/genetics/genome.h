@@ -3,7 +3,7 @@
 
 // Project includes.
 #include "../../typedefs.h"
-#include "../../util/mathutils.h"
+#include "../../mathutils.h"
 
 const int32 CELL_SPLIT_RATE_INDEX = 0;
 const int32 CELL_MUTATION_RATE_INDEX = 1;
@@ -11,6 +11,9 @@ const int32 CELL_MUTATION_RATE_INDEX = 1;
 const int32 CELL_RED_COLOR_INDEX = 2;
 const int32 CELL_GREEN_COLOR_INDEX = 3;
 const int32 CELL_BLUE_COLOR_INDEX = 4;
+
+const real32 MAX_MUTATION_RATE = 1000.0f;
+const real32 MAX_SPLIT_RATE = 1000.0f;
 
 /**
  * @brief This class stores the weight data used for the nerual network.

@@ -1,7 +1,9 @@
 build/
 Build/
+
 release/
 debug/
+docs/
 
 # External libs (To be submoduled)
 lib/

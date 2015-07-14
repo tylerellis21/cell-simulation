@@ -5,8 +5,8 @@
 #include <string>
 
 //Common library includes.
-#include "../util/log.h"
-#include "../util/picojson.h"
+#include <util/log.h>
+#include <util/picojson.h>
 
 /**
  * @brief This holds the config values which may be loaded from the config.json file.

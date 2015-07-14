@@ -16,7 +16,7 @@ using nx::rectf;
 
 // Adjust this based on the maximum cell size and the radius of the world.
 // Kind of a balancing act really.
-const int32 cell_size = 128.0f;
+const int32 cell_size = 64.0f;
 
 /**
  * @brief This class represents on cell node in the spatial hash.

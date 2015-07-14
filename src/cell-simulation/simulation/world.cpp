@@ -2,8 +2,8 @@
 
 #include "../core/console.h"
 #include "../core/content.h"
-#include "../util/mathutils.h"
-#include "../util/log.h"
+#include "../mathutils.h"
+#include <util/log.h>
 
 #include "cell.h"
 #include "food.h"
@@ -16,7 +16,7 @@ uint32 World::m_weightCount = 0;
 
 // 8192.0f
 World::World() :
-    m_radius(2048.0f),
+    m_radius(4096.0f),
     m_spatialHash(m_radius),
     m_debug(false)
 {
@@ -50,13 +50,13 @@ bool World::initialize()
     m_debugText->setPosition(0.0f, 100.0f);
     m_debugText->setCharacterSize(16);
 
-    for (int32 i = 0; i < 1500; i++) {
+    for (int32 i = 0; i < 250; i++) {
         Cell* newCell = new Cell(1, Genome(), randomWorldPoint(), *this);
         newCell->setMass(100.0f);
         m_entities.push_back(newCell);
     }
 
-    for (int32 i = 0; i < 200; i++)
+    for (int32 i = 0; i < 1000; i++)
        m_entities.push_back(new Food(randomWorldPoint(), *this));
 
     m_spatialHash.buildArray(m_vertexQuadArray, sf::Quads);
@@ -135,10 +135,14 @@ void World::onDeath(Entity* entity)
         Cell* cell = (Cell*)entity;
         if (cell) {
 
-            std::stringstream sb;
-            sb << "entity died at generation: " << cell->getGeneration();
+            //std::stringstream sb;
+            //sb << "entity died at generation: " << cell->getGeneration();
 
-            Console::write(sb.str());
+            //Console::write(sb.str());
+
+            if (Cell::m_cellCount <= 50) {
+                m_entities.push_back(new Cell(1, Genome(), randomWorldPoint(), *this));
+            }
         }
 
     }
