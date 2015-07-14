@@ -1,0 +1,13 @@
+[submodule "lib/nex"]
+	path = lib/nex
+	url = https://github.com/tylerellis21/nex.git
+[submodule "lib/SFML"]
+	path = lib/SFML
+	url = https://github.com/SFML/SFML.git
+[submodule "lib/glew"]
+	path = lib/glew
+	url = https://github.com/nigels-com/glew.git
+[submodule "lib/freetype2"]
+	path = lib/freetype2
+	url = http://git.sv.nongnu.org/r/freetype/freetype2.git
+

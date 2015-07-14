@@ -5,8 +5,6 @@ release/
 debug/
 docs/
 
-# External libs (To be submoduled)
-lib/
 
 data/config.json
 data/log.txt
