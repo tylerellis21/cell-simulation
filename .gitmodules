@@ -10,3 +10,4 @@
 [submodule "lib/freetype2"]
 	path = lib/freetype2
 	url = http://git.sv.nongnu.org/r/freetype/freetype2.git
+
