@@ -21,7 +21,7 @@ real32 Resource::consume(real32 amount)
 void Resource::update(const float dt)
 {
     // Scale the radius to the amount of resource left.
-    m_radius = (m_amount / m_max) * 8.0f;
+    m_radius = (m_amount / m_max) * 16.0f;
 
     // Update the shape to reflect the new radius.
     m_shape.setRadius(m_radius);

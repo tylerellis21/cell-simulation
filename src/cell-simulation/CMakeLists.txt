@@ -46,8 +46,14 @@ set (SRCS
     simulation/world.h
     simulation/world.cpp
 
+    simulation/genetics/dna.h
+    simulation/genetics/dna.cpp
+
     simulation/genetics/genome.h
     simulation/genetics/genome.cpp
+
+    simulation/genetics/traits.h
+    simulation/genetics/traits.cpp
 
     simulation/genetics/breeder.h
     simulation/genetics/breeder.cpp
@@ -63,21 +69,6 @@ set (SRCS
 
     mathutils.h
     mathutils.cpp
-
-    irc/ircbot.h
-    irc/ircbot.cpp
-
-    irc/ircuser.h
-    irc/ircuser.cpp
-
-    irc/message/message.h
-    irc/message/message.cpp
-
-    irc/message/inmessage.h
-    irc/message/inmessage.cpp
-
-    irc/message/outmessage.h
-    irc/message/outmessage.cpp
 )
 
 add_executable (${EXE_NAME} ${SRCS})

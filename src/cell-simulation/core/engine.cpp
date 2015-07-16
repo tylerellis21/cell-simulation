@@ -60,12 +60,12 @@ bool Engine::initialize()
 
     m_camera.trackEntity(m_world.getEntities()[0]);
 
-    return m_ircBot.initialize();
+    return true;//m_ircBot.initialize();
 }
 
 void Engine::destroy()
 {
-    m_ircBot.destroy();
+    //m_ircBot.destroy();
 
     if (m_debugText)
        delete m_debugText;

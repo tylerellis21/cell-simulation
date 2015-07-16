@@ -5,55 +5,56 @@
 #include <sstream>
 #include <stdlib.h>
 
-Genome Breeder::replicate(const Genome& parent)
+DNA Breeder::replicate(const DNA& parent)
 {
-    Genome genome;
+    Genome replicatedGenome = replicateGenome(parent);
+    Traits newTraits;
 
-    const uint32 size = parent.getLength();
+    newTraits.mutationRate = parent.traits.mutationRate + (5 - (rand() % 10));
+    newTraits.splitRate = parent.traits.splitRate + randomFloat(-2.0f, 2.0f);
 
-    const real32* parentWeights = parent.readWeights();
+    const real32 colorChange = 0.01f;
 
-    // Rescale the mutation rate back up since it is stored as a float value.
-    int32 mutationRate = Genome::unscaleMutationRate(parentWeights[CELL_MUTATION_RATE_INDEX]);
+    newTraits.red = nx::clamp(parent.traits.red + randomFloat(-colorChange, colorChange), 0.0f, 1.0f);
+    newTraits.green = nx::clamp(parent.traits.green + randomFloat(-colorChange, colorChange), 0.0f, 1.0f);
+    newTraits.blue = nx::clamp(parent.traits.blue + randomFloat(-colorChange, colorChange), 0.0f, 1.0f);
 
-    // Make sure we don't go under the minimum value.
-    if (mutationRate < 1) {
-        mutationRate = 1;
-    }
+    // Copy directly
+    // Copy with an offset
+    // Generate a new random weight.
+
+    return DNA(std::move(replicatedGenome), newTraits);
+}
+
+Genome Breeder::replicateGenome(const DNA& parent)
+{
+    Genome newGenome;
+
+    const real32* parentWeights = parent.genome.readWeights();
+
+    real32* weights = newGenome.editWeights();
 
     int32 mutationCount = 0;
 
-    // Copy from parent, fine tune from parent, and randomized
-    // You can thank waterlimon for the advice we got here.
+    for (uint32 i = 0; i < newGenome.getLength(); i++) {
 
-    // TODO: Improve this method??
-
-    real32* weights = genome.editWeights();
-    for (int32 i = 0; i < size; i++) {
-
-
-        int dice = rand() % mutationRate;
-        if (dice >= 50) {
-
-            // Most of the time we directly copy.
+        const int32 dice = rand() % parent.traits.mutationRate;
+        if (dice >= 670) {
             weights[i] = parentWeights[i];
         }
-        else if (dice >= 25) {
-
-            // Copy with a mutation.
-            weights[i] = parentWeights[i] + randomFloat(-0.02f, 0.02f);
-            mutationCount += 1;
+        else if (dice >= 335) {
+            weights[i] = parentWeights[i] + randomFloat(-0.5f, 0.5f);
+            mutationCount++;
         }
         else {
-            // Generate a new random genome weight.
             weights[i] = Genome::randomGenomeWeight();
-            mutationCount += 1;
+            mutationCount++;
         }
     }
 
-    //std::stringstream sb;
-    //sb << "mutation count: " << mutationCount;
-    //Console::write(sb.str());
+    std::stringstream sb;
+    sb << "mutation count: " << mutationCount;
+    Console::write(sb.str());
 
-    return genome;
+    return newGenome;
 }

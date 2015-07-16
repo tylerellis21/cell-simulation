@@ -5,16 +5,6 @@
 #include "../../typedefs.h"
 #include "../../mathutils.h"
 
-const int32 CELL_SPLIT_RATE_INDEX = 0;
-const int32 CELL_MUTATION_RATE_INDEX = 1;
-
-const int32 CELL_RED_COLOR_INDEX = 2;
-const int32 CELL_GREEN_COLOR_INDEX = 3;
-const int32 CELL_BLUE_COLOR_INDEX = 4;
-
-const real32 MAX_MUTATION_RATE = 1000.0f;
-const real32 MAX_SPLIT_RATE = 1000.0f;
-
 /**
  * @brief This class stores the weight data used for the nerual network.
  */
@@ -82,20 +72,6 @@ public:
      * @return The random weight value.
      */
     inline static real32 randomGenomeWeight() { return randomFloat(); }
-
-    /**
-     * @brief Unscale a mutation rate to the proper range given a input weight value from -1.0 <-> 1.0
-     * @param mutationRate = The normalized mutation rate.
-     * @return The unscaled mutation rate.
-     */
-     static int32 unscaleMutationRate(real32 mutationRate);
-
-     /**
-      * @brief Unscale a split rate give an input value in the proper range.
-      * @param splitRate = The normalized split rate.
-      * @return The unscaled split rate.
-      */
-     static int32 unscaleSplitRate(real32 splitRate);
 
 private:
 

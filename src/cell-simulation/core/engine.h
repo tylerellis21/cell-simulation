@@ -20,7 +20,7 @@
 #include "../simulation/world.h"
 #include "camera.h"
 
-#include "../irc/ircbot.h"
+//#include "../irc/ircbot.h"
 
 const float ZOOM_MIN = 0.0001f;
 
@@ -177,7 +177,7 @@ private:
     /**
      * @brief The instance of the irc bot.
      */
-    IrcBot m_ircBot;
+    //IrcBot m_ircBot;
 
     /**
      * @brief Apply any keyboard movement needed.
