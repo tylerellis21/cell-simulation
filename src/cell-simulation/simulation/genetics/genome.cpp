@@ -15,23 +15,11 @@
 
 // Default constructor.
 Genome::Genome() :
-    m_length(World::m_weightCount + 5),
-    m_weights(new real32[World::m_weightCount + 5])
+    m_length(World::m_weightCount),
+    m_weights(new real32[World::m_weightCount])
 {
     // Move theses first values into a trait class?
-
-    // Set the inital split rate to 10 seconds.
-    m_weights[CELL_SPLIT_RATE_INDEX] = (((10.0f + randomFloat(-1.0f, MAX_SPLIT_RATE)) / MAX_SPLIT_RATE) * 2.0f) - 1.0f;
-
-    // This is the mutation rate.
-    m_weights[CELL_MUTATION_RATE_INDEX] = (((100.0f + randomFloat(-50.0f, MAX_MUTATION_RATE)) / MAX_MUTATION_RATE) * 2.0f) - 1.0f;
-
-    m_weights[CELL_RED_COLOR_INDEX] = randomFloat(0.0f);
-    m_weights[CELL_GREEN_COLOR_INDEX] = randomFloat(0.0f);
-    m_weights[CELL_BLUE_COLOR_INDEX] = randomFloat(0.0f);
-
-
-    for (uint32 i = 5; i < m_length; i++) {
+    for (uint32 i = 0; i < m_length; i++) {
         m_weights[i] = Genome::randomGenomeWeight();
     }
 }
@@ -98,18 +86,4 @@ Genome& Genome::operator =(Genome&& other)
     }
 
     return *this;
-}
-
-int32 Genome::unscaleMutationRate(real32 mutationRate)
-{
-    mutationRate = (nx::clamp(mutationRate, -1.0f, 1.0f) + 1.0f) * 0.5f;
-
-    return int32(mutationRate * MAX_MUTATION_RATE);
-}
-
-int32 Genome::unscaleSplitRate(real32 splitRate)
-{
-    splitRate = (nx::clamp(splitRate, -1.0f, 1.0f) + 1.0f) * 0.5f;
-
-    return int32(splitRate * MAX_SPLIT_RATE);
 }

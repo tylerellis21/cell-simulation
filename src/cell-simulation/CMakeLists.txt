@@ -43,14 +43,17 @@ set (SRCS
     simulation/resource.h
     simulation/resource.cpp
 
-    simulation/water.h
-    simulation/water.cpp
-
     simulation/world.h
     simulation/world.cpp
 
+    simulation/genetics/dna.h
+    simulation/genetics/dna.cpp
+
     simulation/genetics/genome.h
     simulation/genetics/genome.cpp
+
+    simulation/genetics/traits.h
+    simulation/genetics/traits.cpp
 
     simulation/genetics/breeder.h
     simulation/genetics/breeder.cpp

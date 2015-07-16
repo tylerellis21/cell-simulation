@@ -7,7 +7,6 @@
 
 #include "cell.h"
 #include "food.h"
-#include "water.h"
 
 #include <sstream>
 
@@ -21,7 +20,7 @@ World::World() :
     m_debug(false)
 {
     // TODO (Tyler): Fine tune the hidden nodes.
-    m_neuralNetwork = new NeuralNetwork(11, 8, 4);
+    m_neuralNetwork = new NeuralNetwork(10, 9, 4);
     m_weightCount = m_neuralNetwork->getWeightCount();
 }
 
@@ -50,13 +49,13 @@ bool World::initialize()
     m_debugText->setPosition(0.0f, 100.0f);
     m_debugText->setCharacterSize(16);
 
-    for (int32 i = 0; i < 250; i++) {
-        Cell* newCell = new Cell(1, Genome(), randomWorldPoint(), *this);
+    for (int32 i = 0; i < 100; i++) {
+        Cell* newCell = new Cell(1, DNA(), randomWorldPoint(), *this);
         newCell->setMass(100.0f);
         m_entities.push_back(newCell);
     }
 
-    for (int32 i = 0; i < 1000; i++)
+    for (int32 i = 0; i < 600; i++)
        m_entities.push_back(new Food(randomWorldPoint(), *this));
 
     m_spatialHash.buildArray(m_vertexQuadArray, sf::Quads);
@@ -124,7 +123,8 @@ void World::update(const float dt)
 void World::updateEntityText()
 {
     std::stringstream sb;
-    sb << "entity count: " << m_entities.size() << ", cell count: " << Cell::m_cellCount;
+    sb << "entity count: " << m_entities.size() << std::endl;
+    sb << "cell count: " << Cell::m_cellCount;
     m_debugText->setString(sb.str());
 }
 
@@ -141,7 +141,7 @@ void World::onDeath(Entity* entity)
             //Console::write(sb.str());
 
             if (Cell::m_cellCount <= 50) {
-                m_entities.push_back(new Cell(1, Genome(), randomWorldPoint(), *this));
+                //m_entities.push_back(new Cell(1, DNA(), randomWorldPoint(), *this));
             }
         }
 
@@ -151,9 +151,6 @@ void World::onDeath(Entity* entity)
         Resource* resource = (Resource*)entity;
         if (resource->getResourceType() == type::Food) {
             m_entities.push_back(new Food(randomWorldPoint(), *this));
-        }
-        else if (resource->getResourceType() == type::Water) {
-            m_entities.push_back(new Water(randomWorldPoint(), *this));
         }
     }
 }

@@ -8,5 +8,7 @@ docs/
 
 data/config.json
 data/log.txt
+data/irc/
+
 
 CMakeLists.txt.user

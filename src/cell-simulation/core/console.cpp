@@ -45,7 +45,7 @@ void Console::update()
 
 void Console::render(sf::RenderTarget& target)
 {
-    int32 yOffset = 100;
+    int32 yOffset = 200;
 
     for (auto& line : m_lines) {
 

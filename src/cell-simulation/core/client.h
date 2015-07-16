@@ -66,7 +66,6 @@ private:
      * @brief This is the main loop.
      */
     void run();
-
 };
 
 #endif // CLIENT_H_INCLUDE

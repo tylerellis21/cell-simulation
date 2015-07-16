@@ -6,7 +6,7 @@
 
 // Project includes.
 #include "entity.h"
-#include "genetics/genome.h"
+#include "genetics/dna.h"
 #include "resource.h"
 
 /**
@@ -18,11 +18,11 @@ public:
 
     /**
      * @brief The default cell constructor.
-     * @param genome = The genome data for the cell.
+     * @param dna = The dna data for the cell.
      * @param location = The location of the cell.
      * @param world = The world to place the cell in.
      */
-    Cell(int32 generation, Genome&& genome, vec2f location, World& world);
+    Cell(int32 generation, DNA dna, vec2f location, World& world);
 
     ~Cell();
 
@@ -72,9 +72,9 @@ private:
     real32 time = 0.0f;
 
     /**
-     * @brief The genome data for this cell.
+     * @brief The dna data for this cell.
      */
-    Genome m_genome;
+    DNA m_dna;
 
     /**
      * @brief Used to draw the direction line of the cell.
