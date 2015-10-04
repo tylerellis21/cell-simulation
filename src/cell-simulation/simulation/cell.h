@@ -1,6 +1,9 @@
 #ifndef CELL_H_INCLUDE
 #define CELL_H_INCLUDE
 
+#include <nex/math/vec2.h>
+#include <nex/math/vec3.h>
+
 // SFML includes.
 #include <SFML/System/Clock.hpp>
 
@@ -8,6 +11,12 @@
 #include "entity.h"
 #include "genetics/dna.h"
 #include "resource.h"
+
+using nx::vec2f;
+using nx::vec3f;
+
+
+const real32 visionDistance = 64.0f;
 
 /**
  * @brief This class represents a cell in the simulation world.
@@ -76,10 +85,12 @@ private:
      */
     DNA m_dna;
 
+    vec2f m_visionLines[6];
+
     /**
      * @brief Used to draw the direction line of the cell.
      */
-    sf::VertexArray m_directionLine;
+    sf::VertexArray m_debugLines;
 
     /**
      * @brief Used to draw the food health bar.
@@ -108,7 +119,7 @@ private:
      * @param distance = The distance to the cell entity.
      * @param direction = The direction to the cell entity.
      */
-    void calculateClosestCell(std::vector<Entity*> list, real32& distance, real32& direction, real32& radius);
+    void calculateClosestCell(std::vector<Entity*> list, real32& distance, real32& direction, real32 radius);
 
     /**
      * @brief Calculate the closest resource entity and the associated values.
@@ -122,8 +133,11 @@ private:
     /**
      * @brief Calculate the verteices for the direction line.
      */
-    void calculateDirectionLine();
+    void caculateDebugLines();
 
+    void caculateVisionLines();
+
+    //Entity* lineToEntityCollision(vec2f lineA, vec2f lineB, vec)
     /**
      * @brief Called in the update method. Calculates when to split the cell.
      */

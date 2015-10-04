@@ -4,7 +4,7 @@
 // Project includes.
 #include "../../typedefs.h"
 #include "../../mathutils.h"
-
+#include "../randomgen.h"
 /**
  * @brief This class stores the weight data used for the nerual network.
  */
@@ -71,7 +71,7 @@ public:
      * @brief Generate a random inital genome weight.
      * @return The random weight value.
      */
-    inline static real32 randomGenomeWeight() { return randomFloat(); }
+    inline static real32 randomGenomeWeight() { return RandomGen::randomFloat(-1.0f, 1.0f); }
 
 private:
 

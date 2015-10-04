@@ -3,6 +3,8 @@
 #include "../core/console.h"
 #include "../core/content.h"
 #include "../mathutils.h"
+#include "randomgen.h"
+
 #include <util/log.h>
 
 #include "cell.h"
@@ -15,7 +17,7 @@ uint32 World::m_weightCount = 0;
 
 // 8192.0f
 World::World() :
-    m_radius(4096.0f),
+    m_radius(2056.0f),
     m_spatialHash(m_radius),
     m_debug(false)
 {
@@ -49,13 +51,13 @@ bool World::initialize()
     m_debugText->setPosition(0.0f, 100.0f);
     m_debugText->setCharacterSize(16);
 
-    for (int32 i = 0; i < 100; i++) {
+    for (int32 i = 0; i < 50; i++) {
         Cell* newCell = new Cell(1, DNA(), randomWorldPoint(), *this);
         newCell->setMass(100.0f);
         m_entities.push_back(newCell);
     }
 
-    for (int32 i = 0; i < 600; i++)
+    for (int32 i = 0; i < 200; i++)
        m_entities.push_back(new Food(randomWorldPoint(), *this));
 
     m_spatialHash.buildArray(m_vertexQuadArray, sf::Quads);
@@ -181,9 +183,9 @@ void World::render(sf::RenderTarget& target, Camera& camera, const sf::View& tex
 vec2f World::randomWorldPoint()
 {
     // Generate a random angle between 0 and 2(Pi).
-    const real32 theta = randomFloat(0.0f) * nx::Pi * 2.0f;
-    return vec2f(std::cos(theta) * randomFloat(0.0f, m_radius),
-                 std::sin(theta) * randomFloat(0.0f, m_radius));
+    const real32 theta = RandomGen::randomFloat(0.0f, nx::Pi * 2.0f);
+    return vec2f(std::cos(theta) * RandomGen::randomFloat(0.0f, m_radius),
+                 std::sin(theta) * RandomGen::randomFloat(0.0f, m_radius));
 }
 
 void World::add(Entity* entity)

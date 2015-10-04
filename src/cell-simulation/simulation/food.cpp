@@ -1,8 +1,9 @@
 #include "food.h"
 #include "../mathutils.h"
+#include "randomgen.h"
 
 Food::Food(vec2f location, World& world) :
-    Resource(randomFloat(50.0f, 100.0f), location, world, type::Food)
+    Resource(RandomGen::randomFloat(50.0f, 100.0f), location, world, type::Food)
 {
     m_mass = (m_amount / 100.0f) * 50.0f;
     m_shape.setFillColor(sf::Color(236, 92, 116));

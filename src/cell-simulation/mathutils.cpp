@@ -1,5 +1,7 @@
 #include "mathutils.h"
 
+#include "simulation/randomgen.h"
+
 #include <cstdlib>
 #include <cstring>
 #include <cmath>
@@ -23,11 +25,6 @@ bool intersects(const vec2f& circleA, const real32 radiusA, const vec2f& circleB
     return !(distanceSq > ((radiusA + radiusB) * (radiusA + radiusB)));
 }
 
-real32 randomFloat(real32 min, real32 max)
-{
-    const real32 range = (max-min);
-    return min + (range * rand() / (RAND_MAX + 1.0f));
-}
 
 vec2f closestCirclePoint(const vec2f& center, const real32 radius, const vec2f& point)
 {
@@ -35,6 +32,30 @@ vec2f closestCirclePoint(const vec2f& center, const real32 radius, const vec2f& 
     const real32 len = 1.0f / v.length();
 
     return vec2f(center.x + (v.x * len) * radius, center.y + (v.y * len) * radius);
+}
+
+bool circleLineIntersect(const vec2f& lineA, const vec2f& lineB, const vec2f& circle, const real32 circleRadius)
+{
+    //float lineA.x, float lineA.y, float lineB.x, float lineB.y, float circle.x, float circle.y, float circleRadius
+    float dx = lineB.x - lineA.x;
+    float dy = lineB.y - lineA.y;
+    float a = dx * dx + dy * dy;
+    float b = 2 * (dx * (lineA.x - circle.x) + dy * (lineA.y - circle.y));
+    float c = circle.x * circle.x + circle.y * circle.y;
+
+    c += lineA.x * lineA.x + lineA.y * lineA.y;
+    c -= 2 * (circle.x * lineA.x + circle.y * lineA.y);
+    c -= circleRadius * circleRadius;
+
+    float bb4ac = b * b - 4 * a * c;
+
+    return (bb4ac > 0);
+    /*if(bb4ac<0){
+        return false;    // No collision
+    }
+    else
+    return true;      //Collision
+    }*/
 }
 
 real32 normalize(real32 value, const real32 min, const real32 max)

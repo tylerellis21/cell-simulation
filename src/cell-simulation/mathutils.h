@@ -27,13 +27,7 @@ bool intersects(const vec2f& circle, const real32 radius, const vec2f& min, cons
  */
 bool intersects(const vec2f& circleA, const real32 radiusA, const vec2f& circleB, const real32 radiusB);
 
-/**
- * @brief Generate a random floating point number within the specified range.
- * @param min = The minimum value.
- * @param max = The maximum value.
- * @return a random value between the given range.
- */
-real32 randomFloat(real32 min = -1, real32 max = 1);
+bool circleLineIntersect(const vec2f& lineA, const vec2f& lineB, const vec2f& circle, const real32 circleRadius);
 
 /**
  * @brief Get the closest point on a circle to the given point/

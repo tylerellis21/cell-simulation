@@ -16,9 +16,8 @@ struct Traits
     real32 green;
     real32 blue;
 
-    //real32 m_rayALength;
-    //real32 m_rayBLength;
-    //real32 m_rayCLength;
+    real32 eyeOffsetA;
+    real32 eyeOffsetB;
 };
 
 #endif // TRAITS_H_INCLUDE
