@@ -23,7 +23,8 @@ Entity::Entity(vec2f location, World& world, type::EntityType type) :
     m_velocity(vec2f()),
     m_friction(vec2f(1.0f)),
     m_world(world),
-    m_currentNode(0)
+    m_currentNode(0),
+    m_color(0.f)
 { }
 
 Entity::~Entity()
@@ -74,6 +75,7 @@ void Entity::update(const float dt)
     }
 
     vec2i currentNode = calculateNode(m_location);
+
     m_hashUpdate = (currentNode != m_lastNode);
     m_lastNode = currentNode;
 }

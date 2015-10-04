@@ -15,6 +15,13 @@
 NeuralNetwork* World::m_neuralNetwork = 0;
 uint32 World::m_weightCount = 0;
 
+/*
+ * Simulate like a colony
+ * Where each entity has a set purpose.
+ * Queen
+ * Workes
+ */
+
 // 8192.0f
 World::World() :
     m_radius(2056.0f),
@@ -22,7 +29,7 @@ World::World() :
     m_debug(false)
 {
     // TODO (Tyler): Fine tune the hidden nodes.
-    m_neuralNetwork = new NeuralNetwork(10, 9, 4);
+    m_neuralNetwork = new NeuralNetwork(17, 9, 3);
     m_weightCount = m_neuralNetwork->getWeightCount();
 }
 
@@ -57,7 +64,7 @@ bool World::initialize()
         m_entities.push_back(newCell);
     }
 
-    for (int32 i = 0; i < 200; i++)
+    for (int32 i = 0; i < 500; i++)
        m_entities.push_back(new Food(randomWorldPoint(), *this));
 
     m_spatialHash.buildArray(m_vertexQuadArray, sf::Quads);

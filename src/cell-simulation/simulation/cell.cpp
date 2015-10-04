@@ -49,6 +49,8 @@ Cell::Cell(int32 generation, DNA dna, vec2f location, World& world) :
 
     m_shape.setFillColor(sf::Color(m_dna.traits.red * 255, m_dna.traits.green * 255, m_dna.traits.blue * 255, 255));
 
+    m_color = vec3f(m_dna.traits.red, m_dna.traits.green, m_dna.traits.blue);
+
     m_splitRate = m_dna.traits.splitRate;
 
     /*std::stringstream info;
@@ -67,25 +69,9 @@ Cell::~Cell()
 void Cell::update(const float dt)
 {
     time += dt;
-    caculateVisionLines();
 
     // All of the entities in the nearby hashnodes.
     std::vector<Entity*> nearList = getNearEntities(true);
-
-
-    // Default food values when none is found.
-    real32 foodDist = 0;
-    real32 foodDir = 0;
-
-    calculateClosestResource(nearList, foodDist, foodDir, type::Food);
-
-    // Default cell values when none is found.
-    real32 cellDist = 0;
-    real32 cellDir = 0;
-    real32 cellRadius = 0;
-
-    calculateClosestCell(nearList, cellDist, cellDir, cellRadius);
-
 
     const vec2f closestWallPoint = closestCirclePoint(vec2f(), m_world.getRadius(), m_location);
     const real32 wallDist = vec2f::distance(closestWallPoint, m_location);
@@ -94,24 +80,24 @@ void Cell::update(const float dt)
     //const real32 pi2 = nx::Pi * 2.0f;
     const real32 worldRadius = m_world.getRadius();
 
-    real32 inputs[] = {
+    real32 visionValues[12];
 
-        normalize(m_rotation, -nx::Pi, nx::Pi),
-        normalize(m_radius, 1.0f, CELL_MAX_RADIUS),
-        normalize(m_foodAmount, 0.0f, CELL_MAX_FOOD),
+    for (auto& value : visionValues)
+        value = 0;
 
-        normalize(foodDist, 0.0f, worldRadius),
-        normalize(foodDir, -nx::Pi, nx::Pi),
+    caculateVisionLines();
+    calculateVision(nearList, visionValues);
 
-        normalize(cellDist, 0.0f, worldRadius),
-        normalize(cellDir, -nx::Pi, nx::Pi),
-        normalize(cellRadius, 1.0f, 25.0f),
+    real32 inputs[17];
 
-        normalize(wallDist, 0.0f, worldRadius),
-        normalize(wallDir, -nx::Pi, nx::Pi)
+    inputs[0] = normalize(m_rotation, -nx::Pi, nx::Pi);
+    inputs[1] = normalize(m_radius, 1.0f, CELL_MAX_RADIUS);
+    inputs[2] = normalize(m_foodAmount, 0.0f, CELL_MAX_FOOD);
+    inputs[3] = normalize(wallDist, 0.0f, worldRadius);
+    inputs[4] = normalize(wallDir, -nx::Pi, nx::Pi);
 
-        //normalize(IntegerNoise(rand()), -1.0f, 1.0f)
-    };
+    for (uint32 i = 0; i < 12; i++)
+        inputs[i + 5] = visionValues[i];
 
     NeuralNetwork* network = World::m_neuralNetwork;
 
@@ -128,18 +114,14 @@ void Cell::update(const float dt)
     const real32* output = network->getOutputs();
 
     const real32 forward = output[0] * 100.0f;
-    const real32 backward = output[1] * 100.0f;
-    const real32 turnLeft = output[2] * 2.5f; //50.0f;
-    const real32 turnRight = output[3] * 2.5f; //50.0f;
+    const real32 turnLeft = output[2];
+    const real32 turnRight = output[3];
 
-    const real32 turnSum = turnLeft - turnRight;
-    const real32 moveSum = forward - backward;
+    m_rotation += turnRight;
+    m_rotation -= turnLeft;
 
-    //m_rotation += 0.01f;
-    m_rotation += turnSum;
-
-    m_velocity.x += std::cos(m_rotation) * moveSum * dt;
-    m_velocity.y += std::sin(m_rotation) * moveSum * dt;
+    m_velocity.x += std::cos(m_rotation) * forward * dt;
+    m_velocity.y += std::sin(m_rotation) * forward * dt;
 
     // Our constant food loss.
     m_foodAmount -= 1.0f * dt;
@@ -268,19 +250,64 @@ void Cell::calculateClosestResource(std::vector<Entity*> list, real32& distance,
 
 void Cell::caculateVisionLines()
 {
-    /*const real32 rotationA = m_rotation - m_dna.traits.eyeOffsetA;
+    const real32 rotationA = m_rotation - m_dna.traits.eyeOffsetA;
     const real32 rotationB = m_rotation + m_dna.traits.eyeOffsetB;
 
-    m_visionLines[0] = m_location + vec2f(std::cos(m_rotation) * visionDistance, std::sin(m_rotation) * visionDistance);
-    m_visionLines[1] = m_location + vec2f(std::cos(rotationA) * visionDistance, std::sin(rotationA) * visionDistance);
-    m_visionLines[2] = m_location + vec2f(std::cos(rotationB) * visionDistance, std::sin(rotationB) * visionDistance);*/
+    // TODO: Remove the trig functions here.
+
+    m_visionLines[0] = m_location + vec2f(std::cos(m_rotation) * m_dna.traits.eyeLengthA, std::sin(m_rotation) * m_dna.traits.eyeLengthA);
+    m_visionLines[1] = m_location + vec2f(std::cos(rotationA) * m_dna.traits.eyeLengthB, std::sin(rotationA) * m_dna.traits.eyeLengthB);
+    m_visionLines[2] = m_location + vec2f(std::cos(rotationB) * m_dna.traits.eyeLengthC, std::sin(rotationB) * m_dna.traits.eyeLengthC);
+}
+
+void Cell::calculateVision(std::vector<Entity*> list, real32* outputs)
+{
+    VisionResult results[3];
+
+    for (auto& entity : list) {
+
+        real32 distA = 0;
+        real32 distB = 0;
+        real32 distC = 0;
+
+        bool intersectA =
+                circleLineIntersect(m_location, m_visionLines[0], entity->getLocation(), entity->getRadius(), &distA);
+
+        bool intersectB =
+                circleLineIntersect(m_location, m_visionLines[1], entity->getLocation(), entity->getRadius(), &distB);
+
+        bool intersectC =
+                circleLineIntersect(m_location, m_visionLines[2], entity->getLocation(), entity->getRadius(), &distC);
+
+        if (intersectA) {
+            results[0].color = entity->getColor();
+            results[0].distance = distA;
+        }
+
+        if (intersectB) {
+            results[1].color = entity->getColor();
+            results[1].distance = distB;
+        }
+
+        if (intersectC) {
+            results[2].color = entity->getColor();
+            results[2].distance = distC;
+        }
+    }
+
+    for (uint32 offset = 0, i = 0; i < 4; i++, offset += 4) {
+        outputs[offset] = results[i].distance;
+        outputs[offset+1] = results[i].color.x;
+        outputs[offset+2] = results[i].color.y;
+        outputs[offset+3] = results[i].color.z;
+    }
 }
 
 void Cell::caculateDebugLines()
 {
     m_debugLines.clear();
 
-    real32 length = (m_velocity.length() / 500.0f) * (m_radius + 25.0f);
+    real32 length = (m_velocity.length() / 500.0f) + 8.0f;
     vec2f newPoint = (length) * vec2f::normalize(m_velocity);
 
     sf::Vector2f pointA(m_location.x, m_location.y);
@@ -288,7 +315,7 @@ void Cell::caculateDebugLines()
 
     m_debugLines.append(sf::Vertex(pointA, sf::Color::Red));
     m_debugLines.append(sf::Vertex(pointA + pointB, sf::Color::Red));
-/*
+
     m_debugLines.append(sf::Vertex(pointA, sf::Color::Cyan));
     m_debugLines.append(sf::Vertex(sf::Vector2f(m_visionLines[0].x, m_visionLines[0].y), sf::Color::Cyan));
 
@@ -296,7 +323,7 @@ void Cell::caculateDebugLines()
     m_debugLines.append(sf::Vertex(sf::Vector2f(m_visionLines[1].x, m_visionLines[1].y), sf::Color::Green));
 
     m_debugLines.append(sf::Vertex(pointA, sf::Color::Blue));
-    m_debugLines.append(sf::Vertex(sf::Vector2f(m_visionLines[2].x, m_visionLines[2].y), sf::Color::Blue));*/
+    m_debugLines.append(sf::Vertex(sf::Vector2f(m_visionLines[2].x, m_visionLines[2].y), sf::Color::Blue));
 }
 
 void Cell::calculateRoundBar(sf::VertexArray& vertexArray, const sf::Color color, const real32 value, const real32 offset)

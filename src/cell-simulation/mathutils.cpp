@@ -33,29 +33,68 @@ vec2f closestCirclePoint(const vec2f& center, const real32 radius, const vec2f& 
 
     return vec2f(center.x + (v.x * len) * radius, center.y + (v.y * len) * radius);
 }
+/*
+Taking
 
-bool circleLineIntersect(const vec2f& lineA, const vec2f& lineB, const vec2f& circle, const real32 circleRadius)
+E is the starting point of the ray,
+L is the end point of the ray,
+C is the center of sphere you're testing against
+r is the radius of that sphere
+Compute:
+d = L - E ( Direction vector of ray, from start to end )
+f = E - C ( Vector from center sphere to ray start )
+*/
+bool circleLineIntersect(const vec2f& E, const vec2f& L, const vec2f& C, const real32 r, real32* distOutput)
 {
-    //float lineA.x, float lineA.y, float lineB.x, float lineB.y, float circle.x, float circle.y, float circleRadius
-    float dx = lineB.x - lineA.x;
-    float dy = lineB.y - lineA.y;
-    float a = dx * dx + dy * dy;
-    float b = 2 * (dx * (lineA.x - circle.x) + dy * (lineA.y - circle.y));
-    float c = circle.x * circle.x + circle.y * circle.y;
+    const vec2f d = (L - E); // Normalize?
+    const vec2f f = E - C;
 
-    c += lineA.x * lineA.x + lineA.y * lineA.y;
-    c -= 2 * (circle.x * lineA.x + circle.y * lineA.y);
-    c -= circleRadius * circleRadius;
+    real32 a = d.dot(d);
+    real32 b = 2.0f * f.dot(d);
+    real32 c = f.dot(f) - (r * r);
 
-    float bb4ac = b * b - 4 * a * c;
+    real32 discriminant = (b * b) - (4.f * a * c);
 
-    return (bb4ac > 0);
-    /*if(bb4ac<0){
-        return false;    // No collision
+    if (discriminant < 0)
+        return false;
+    else {
+        // ray didn't totally miss sphere,
+        // so there is a solution to
+        // the equation.
+
+        discriminant = sqrt(discriminant);
+
+        // either solution may be on or off the ray so need to test both
+        // t1 is always the smaller value, because BOTH discriminant and
+        // a are nonnegative.
+        real32 t1 = (-b - discriminant)/(2*a);
+        real32 t2 = (-b + discriminant)/(2*a);
+
+        // 3x HIT cases:
+        //          -o->             --|-->  |            |  --|->
+        // Impale(t1 hit,t2 hit), Poke(t1 hit,t2>1), ExitWound(t1<0, t2 hit),
+
+        // 3x MISS cases:
+        //       ->  o                     o ->              | -> |
+        // FallShort (t1>1,t2>1), Past (t1<0,t2<0), CompletelyInside(t1<0, t2>1)
+
+        if(t1 >= 0 && t1 <= 1) {
+            // t1 is the intersection, and it's closer than t2
+            // (since t1 uses -b - discriminant)
+            // Impale, Poke
+
+            if (distOutput)
+                *distOutput = t1;
+
+            return true;
+        }
+
+        // here t1 didn't intersect so we are either started
+        // inside the sphere or completely past it
+        if (distOutput)
+            *distOutput = t1;
+        return (t2 >= 0 && t2 <= 1);
     }
-    else
-    return true;      //Collision
-    }*/
 }
 
 real32 normalize(real32 value, const real32 min, const real32 max)

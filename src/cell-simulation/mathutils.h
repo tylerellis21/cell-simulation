@@ -27,7 +27,7 @@ bool intersects(const vec2f& circle, const real32 radius, const vec2f& min, cons
  */
 bool intersects(const vec2f& circleA, const real32 radiusA, const vec2f& circleB, const real32 radiusB);
 
-bool circleLineIntersect(const vec2f& lineA, const vec2f& lineB, const vec2f& circle, const real32 circleRadius);
+bool circleLineIntersect(const vec2f& lineA, const vec2f& lineB, const vec2f& circleCenter, const real32 circleRadius, real32* distOutput = 0);
 
 /**
  * @brief Get the closest point on a circle to the given point/

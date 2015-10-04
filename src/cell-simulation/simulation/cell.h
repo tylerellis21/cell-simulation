@@ -16,8 +16,6 @@ using nx::vec2f;
 using nx::vec3f;
 
 
-const real32 visionDistance = 64.0f;
-
 /**
  * @brief This class represents a cell in the simulation world.
  */
@@ -85,6 +83,11 @@ private:
      */
     DNA m_dna;
 
+    struct VisionResult {
+        real32 distance = 0.f;
+        vec3f color = {0.f, 0.f, 0.f};
+    };
+
     vec2f m_visionLines[6];
 
     /**
@@ -129,6 +132,8 @@ private:
      * @param resourceType = The type of resource to look for.
      */
     void calculateClosestResource(std::vector<Entity*> list, real32& distance, real32& direction, type::ResourceType resourceType);
+
+    void calculateVision(std::vector<Entity*> list, real32* outputs);
 
     /**
      * @brief Calculate the verteices for the direction line.

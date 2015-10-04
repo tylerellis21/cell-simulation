@@ -18,9 +18,25 @@ DNA Breeder::replicate(const DNA& parent)
 
     const real32 colorChange = 0.01f;
 
-    newTraits.red = nx::clamp(parent.traits.red + RandomGen::randomFloat(-colorChange, colorChange), 0.0f, 1.0f);
-    newTraits.green = nx::clamp(parent.traits.green + RandomGen::randomFloat(-colorChange, colorChange), 0.0f, 1.0f);
-    newTraits.blue = nx::clamp(parent.traits.blue + RandomGen::randomFloat(-colorChange, colorChange), 0.0f, 1.0f);
+    newTraits.red = nx::clamp(parent.traits.red + RandomGen::randomFloat(-colorChange, colorChange), 0.f, 1.f);
+    newTraits.green = nx::clamp(parent.traits.green + RandomGen::randomFloat(-colorChange, colorChange), 0.f, 1.f);
+    newTraits.blue = nx::clamp(parent.traits.blue + RandomGen::randomFloat(-colorChange, colorChange), 0.f, 1.f);
+
+    const real32 eyeLengthChange = 0.001f;
+
+    newTraits.eyeLengthA = nx::clamp(parent.traits.eyeLengthA + RandomGen::randomFloat(-eyeLengthChange, eyeLengthChange),
+                                     minEyeLength, maxEyeLength);
+
+    newTraits.eyeLengthB = nx::clamp(parent.traits.eyeLengthB + RandomGen::randomFloat(-eyeLengthChange, eyeLengthChange),
+                                     minEyeLength, maxEyeLength);
+
+    newTraits.eyeLengthC = nx::clamp(parent.traits.eyeLengthC + RandomGen::randomFloat(-eyeLengthChange, eyeLengthChange),
+                                     minEyeLength, maxEyeLength);
+
+    const real32 eyeOffsetChange = 0.001f;
+
+    newTraits.eyeOffsetA = nx::clamp(parent.traits.eyeOffsetA + RandomGen::randomFloat(-eyeOffsetChange, eyeOffsetChange), 0.f, nx::PiOver4);
+    newTraits.eyeOffsetB = nx::clamp(parent.traits.eyeOffsetB + RandomGen::randomFloat(-eyeOffsetChange, eyeOffsetChange), 0.f, nx::PiOver4);
 
     // Copy directly
     // Copy with an offset

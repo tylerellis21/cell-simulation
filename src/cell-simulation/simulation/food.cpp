@@ -10,4 +10,5 @@ Food::Food(vec2f location, World& world) :
     m_shape.setPosition(m_location.x, m_location.y);
     m_shape.setPointCount(32);
     m_shape.setOutlineThickness(0.0f);
+    m_color = vec3f(236.f, 92.f, 116.f) / 255.0f;
 }

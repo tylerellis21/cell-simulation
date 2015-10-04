@@ -11,6 +11,9 @@ Traits::Traits() :
     red(RandomGen::randomFloat(0.0f, 1.0f)),
     green(RandomGen::randomFloat(0.0f, 1.0f)),
     blue(RandomGen::randomFloat(0.0f, 1.0f)),
-    eyeOffsetA(RandomGen::randomFloat(0.0f, nx::PiOver4)),
-    eyeOffsetB(RandomGen::randomFloat(0.0f, nx::PiOver4))
+    eyeOffsetA(RandomGen::randomFloat(0.0f, nx::PiOver2)),
+    eyeOffsetB(RandomGen::randomFloat(0.0f, nx::PiOver2)),
+    eyeLengthA(RandomGen::randomFloat(minEyeLength, maxEyeLength)),
+    eyeLengthB(RandomGen::randomFloat(minEyeLength, maxEyeLength)),
+    eyeLengthC(RandomGen::randomFloat(minEyeLength, maxEyeLength))
 { }
