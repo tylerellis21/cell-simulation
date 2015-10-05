@@ -31,6 +31,9 @@ set (SRCS
     simulation/neuralnetwork.h
     simulation/neuralnetwork.cpp
 
+    simulation/randomgen.h
+    simulation/randomgen.cpp
+
     simulation/entity.h
     simulation/entity.cpp
 

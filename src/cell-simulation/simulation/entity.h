@@ -9,8 +9,10 @@
 
 // Nex includes.
 #include <nex/math/vec2.h>
+#include <nex/math/vec3.h>
 
 using nx::vec2f;
+using nx::vec3f;
 using nx::vec2i;
 
 // Forward reference.
@@ -124,6 +126,8 @@ public:
      */
     void setRadius(real32 radius) { m_radius = radius; }
 
+    vec3f getColor() const { return m_color; }
+
 private:
 
     /**
@@ -200,6 +204,11 @@ protected:
      * @brief The friction of the entity.
      */
     vec2f m_friction;
+
+    /**
+     * @brief The color of the entity.
+     */
+    vec3f m_color;
 
     /**
      * @brief The world that the entity exists in.
