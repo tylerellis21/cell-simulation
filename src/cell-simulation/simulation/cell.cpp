@@ -36,7 +36,7 @@ Cell::Cell(int32 generation, DNA dna, vec2f location, World& world) :
 {
     m_cellCount++;
 
-    m_friction = vec2f(0.98f);
+    m_friction = vec2f(0.95f);
 
     m_shape.setPointCount(32);
     m_shape.setPosition(m_location.x, m_location.y);
@@ -53,12 +53,12 @@ Cell::Cell(int32 generation, DNA dna, vec2f location, World& world) :
 
     m_splitRate = m_dna.traits.splitRate;
 
-    /*std::stringstream info;
+    std::stringstream info;
     info << "cell split rate: " << m_splitRate;
     info << ", mutation rate: " << m_dna.traits.mutationRate;
     info << ", gen: " << m_generation;
 
-    Console::write(info.str());*/
+    Console::write(info.str());
 }
 
 Cell::~Cell()
@@ -113,18 +113,18 @@ void Cell::update(const float dt)
 
     const real32* output = network->getOutputs();
 
-    const real32 forward = output[0] * 100.0f;
+    const real32 forward = output[0] * 350.f;
     const real32 turnLeft = output[2];
     const real32 turnRight = output[3];
 
-    m_rotation += turnRight;
-    m_rotation -= turnLeft;
+    m_rotation += turnRight / nx::Pi;
+    m_rotation -= turnLeft / nx::Pi;
 
     m_velocity.x += std::cos(m_rotation) * forward * dt;
     m_velocity.y += std::sin(m_rotation) * forward * dt;
 
     // Our constant food loss.
-    m_foodAmount -= 1.0f * dt;
+    m_foodAmount -= 5.0f * dt;
 
     // Clamp to the specific range.
     m_foodAmount = nx::clamp(m_foodAmount, 0.0f, CELL_MAX_FOOD);

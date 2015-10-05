@@ -24,12 +24,12 @@ uint32 World::m_weightCount = 0;
 
 // 8192.0f
 World::World() :
-    m_radius(2056.0f),
+    m_radius(2048.0f),
     m_spatialHash(m_radius),
     m_debug(false)
 {
     // TODO (Tyler): Fine tune the hidden nodes.
-    m_neuralNetwork = new NeuralNetwork(17, 9, 3);
+    m_neuralNetwork = new NeuralNetwork(17, 16, 3);
     m_weightCount = m_neuralNetwork->getWeightCount();
 }
 
@@ -58,13 +58,13 @@ bool World::initialize()
     m_debugText->setPosition(0.0f, 100.0f);
     m_debugText->setCharacterSize(16);
 
-    for (int32 i = 0; i < 50; i++) {
+    for (int32 i = 0; i < 10; i++) {
         Cell* newCell = new Cell(1, DNA(), randomWorldPoint(), *this);
         newCell->setMass(100.0f);
         m_entities.push_back(newCell);
     }
 
-    for (int32 i = 0; i < 500; i++)
+    for (int32 i = 0; i < 250; i++)
        m_entities.push_back(new Food(randomWorldPoint(), *this));
 
     m_spatialHash.buildArray(m_vertexQuadArray, sf::Quads);

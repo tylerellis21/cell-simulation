@@ -4,7 +4,7 @@
 // Project includes.
 #include "../../typedefs.h"
 
-const real32 minEyeLength = 64.0f;
+const real32 minEyeLength = 48.0f;
 const real32 maxEyeLength = 128.0f;
 
 struct Traits
