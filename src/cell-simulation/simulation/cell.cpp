@@ -29,7 +29,7 @@ float IntegerNoise (int n)
 int32 Cell::m_cellCount = 0;
 
 Cell::Cell(int32 generation, DNA dna, vec2f location, World& world) :
-    Entity(location, world, type::Cell),
+    Entity(location, world, EntityType::Cell),
     m_generation(generation),
     m_foodAmount(CELL_MAX_FOOD),
     m_dna(dna)
@@ -88,16 +88,18 @@ void Cell::update(const float dt)
     caculateVisionLines();
     calculateVision(nearList, visionValues);
 
-    real32 inputs[17];
+    real32 inputs[19];
 
     inputs[0] = normalize(m_rotation, -nx::Pi, nx::Pi);
     inputs[1] = normalize(m_radius, 1.0f, CELL_MAX_RADIUS);
     inputs[2] = normalize(m_foodAmount, 0.0f, CELL_MAX_FOOD);
     inputs[3] = normalize(wallDist, 0.0f, worldRadius);
     inputs[4] = normalize(wallDir, -nx::Pi, nx::Pi);
+    inputs[5] = m_memory[0];
+    inputs[6] = m_memory[1];
 
     for (uint32 i = 0; i < 12; i++)
-        inputs[i + 5] = visionValues[i];
+        inputs[i + 7] = visionValues[i];
 
     NeuralNetwork* network = World::m_neuralNetwork;
 
@@ -113,9 +115,13 @@ void Cell::update(const float dt)
 
     const real32* output = network->getOutputs();
 
-    const real32 forward = output[0] * 350.f;
+    const real32 forward = output[0] * 300.f;
     const real32 turnLeft = output[2];
     const real32 turnRight = output[3];
+
+
+    m_memory[0] = output[4];
+    m_memory[1] = output[5];
 
     m_rotation += turnRight / nx::Pi;
     m_rotation -= turnLeft / nx::Pi;
@@ -124,7 +130,7 @@ void Cell::update(const float dt)
     m_velocity.y += std::sin(m_rotation) * forward * dt;
 
     // Our constant food loss.
-    m_foodAmount -= 5.0f * dt;
+    m_foodAmount -= 1.0f * dt;
 
     // Clamp to the specific range.
     m_foodAmount = nx::clamp(m_foodAmount, 0.0f, CELL_MAX_FOOD);
@@ -153,10 +159,7 @@ void Cell::splitCell()
 {
     const real32 timePassed = m_cellSplitClock.getElapsedTime().asSeconds();
 
-    if (timePassed >= m_splitRate ||
-            (m_foodAmount >= 25.0f
-             && m_mass >= 2.0f
-             && timePassed >= 10.0f)) {
+    if (timePassed >= m_splitRate || (m_foodAmount >= 10.0f && timePassed >= 10.0f)) {
 
         const real32 pi2 = nx::Pi * 2.0f;
         const real32 randomRad = RandomGen::randomFloat(0.0f, 2.0f * nx::Pi);
@@ -206,7 +209,7 @@ void Cell::calculateClosestCell(std::vector<Entity*> list, real32& distance, rea
 
     for (auto& entity : list) {
 
-        if (entity->getType() == type::Cell)
+        if (entity->getType() == EntityType::Cell)
             if (vec2f::distanceSquared(entity->getLocation(), m_location) <= distSq)
                 found = entity;
     }
@@ -231,7 +234,7 @@ void Cell::calculateClosestResource(std::vector<Entity*> list, real32& distance,
 
     for (auto& entity : list) {
 
-        if (entity->getType() == type::Resource)
+        if (entity->getType() == EntityType::Resource)
             if (((Resource*)entity)->getResourceType() == resourceType)
                 if (vec2f::distanceSquared(entity->getLocation(), m_location) <= distSq)
                     found = entity;
@@ -348,10 +351,10 @@ void Cell::calculateRoundBar(sf::VertexArray& vertexArray, const sf::Color color
 
 void Cell::onCollision(Entity* other)
 {
-    type::EntityType otherType = other->getType();
+    EntityType otherType = other->getType();
 
     // Do cell to cell collision.
-    if (otherType == type::Cell) {
+    if (otherType == EntityType::Cell) {
 
         Cell* ocell = (Cell*)other;
 
@@ -376,13 +379,16 @@ void Cell::onCollision(Entity* other)
         }
     }
     // Do cell to resource collision.
-    else if (otherType == type::Resource) {
+    else if (otherType == EntityType::Resource) {
 
         Resource* resource = (Resource*)other;
         if (resource->getResourceType() == type::Food) {
             m_foodAmount += resource->consume(8.0f);
             m_mass += 4.0f;
         }
+        else if (resource->getResourceType() == type::Fire)
+            m_foodAmount -= 10.0f;
+
     }
 }
 

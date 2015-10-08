@@ -110,7 +110,7 @@ void Engine::keyPress(sf::Event::KeyEvent e)
         Entity* entity = m_world.getEntity(m_entityTrackingIndex);
 
         uint32 counter = 0;
-        while(entity->getType() != type::Cell && counter < m_world.getEntityCount()) {
+        while(entity->getType() != EntityType::Cell && counter < m_world.getEntityCount()) {
            m_entityTrackingIndex = (m_entityTrackingIndex + 1) % m_world.getEntityCount();
            entity = m_world.getEntity(m_entityTrackingIndex);
            counter++;

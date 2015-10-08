@@ -56,6 +56,8 @@ public:
      */
     int32 getGeneration() const { return m_generation; }
 
+    DNA getDna() const { return m_dna; }
+
 private:
 
     /**
@@ -89,6 +91,8 @@ private:
     };
 
     vec2f m_visionLines[6];
+
+    real32 m_memory[2] = {0.f, 0.f};
 
     /**
      * @brief Used to draw the direction line of the cell.

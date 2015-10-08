@@ -48,6 +48,10 @@ public:
      */
     void destroy();
 
+    void saveState();
+
+    void loadState();
+
     /**
      * @brief Update the world.
      * @param dt = Delta time.

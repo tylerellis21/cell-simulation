@@ -19,18 +19,14 @@ using nx::vec2i;
 class World;
 class HashNode;
 
-namespace type {
-
 /**
  * @brief Describes the type of entites.
  */
-enum EntityType
+enum class EntityType
 {
     Cell = 0,
     Resource = 1
 };
-
-}
 
 /**
  * @brief The entity class does all of the based physics/collsion along with controlling the spatial hash.
@@ -47,7 +43,7 @@ public:
      * @param world = The world the entity exists in.
      * @param type = The type of entity that is being created.
      */
-    Entity(vec2f location, World& world, type::EntityType type);
+    Entity(vec2f location, World& world, EntityType type);
 
     /**
      * @brief The default entity destructor.
@@ -76,7 +72,7 @@ public:
      * @brief Get the type id of this entity.
      * @return The type of entity.
      */
-    inline type::EntityType getType() const { return m_type; }
+    inline EntityType getType() const { return m_type; }
 
     /**
      * @brief Get the state of the entity.
@@ -158,7 +154,7 @@ protected:
     /**
      * @brief The type of entity that this is.
      */
-    type::EntityType m_type;
+    EntityType m_type;
 
     /**
      * @brief The state of the entity.

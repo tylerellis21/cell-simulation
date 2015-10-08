@@ -12,7 +12,8 @@ namespace type {
 enum ResourceType
 {
     Food = 0,
-    Water = 1
+    Water = 1,
+    Fire = 2,
 };
 
 }

@@ -9,8 +9,10 @@
 
 #include "cell.h"
 #include "food.h"
+#include "fire.h"
 
 #include <sstream>
+#include <fstream>
 
 NeuralNetwork* World::m_neuralNetwork = 0;
 uint32 World::m_weightCount = 0;
@@ -24,12 +26,12 @@ uint32 World::m_weightCount = 0;
 
 // 8192.0f
 World::World() :
-    m_radius(2048.0f),
+    m_radius(2046.0f),
     m_spatialHash(m_radius),
     m_debug(false)
 {
     // TODO (Tyler): Fine tune the hidden nodes.
-    m_neuralNetwork = new NeuralNetwork(17, 16, 3);
+    m_neuralNetwork = new NeuralNetwork(19, 16, 4);
     m_weightCount = m_neuralNetwork->getWeightCount();
 }
 
@@ -40,6 +42,92 @@ World::~World()
 
     m_neuralNetwork = 0;
 }
+
+void World::saveState()
+{
+    std::ofstream out;
+    out.open("../../data/dna.dat", std::ios::out | std::ios::binary);
+
+    if (!out.is_open())
+        return;
+
+    uint64 entityCount = 0;
+
+    for (Entity* e : m_entities)
+        if (e->getType() == EntityType::Cell)
+            entityCount++;
+
+    out << entityCount << std::endl;
+
+    for (Entity* e : m_entities)
+    if (e->getType() == EntityType::Cell){
+        Cell* cell = static_cast<Cell*>(e);
+        DNA dna = cell->getDna();
+
+        out << cell->getGeneration() << std::endl;
+
+        out << dna.traits.red << std::endl;
+        out << dna.traits.green << std::endl;
+        out << dna.traits.blue << std::endl;
+
+        out << dna.traits.eyeLengthA << std::endl;
+        out << dna.traits.eyeLengthB << std::endl;
+        out << dna.traits.eyeLengthC << std::endl;
+        out << dna.traits.eyeOffsetA << std::endl;
+        out << dna.traits.eyeOffsetB << std::endl;
+
+        out << dna.traits.mutationRate << std::endl;
+        out << dna.traits.splitRate << std::endl;
+
+        const real32* genome = dna.genome.readWeights();
+
+        for (uint64 i = 0; i < dna.genome.getLength(); i++)
+            out << genome[i] << std::endl;
+    }
+
+    out.close();
+}
+
+void World::loadState()
+{
+    std::ifstream in;
+    in.open("../../data/dna.dat", std::ios::in | std::ios::binary);
+
+    if (!in.is_open())
+        return;
+
+    uint64 entityCount = 0;
+    in >> entityCount;
+
+    for (uint64 i = 0; i < entityCount; i++) {
+        DNA dna;
+
+        int32 generation = 0;
+
+        in >> generation;
+        in >> dna.traits.red;
+        in >> dna.traits.green;
+        in >> dna.traits.blue;
+        in >> dna.traits.eyeLengthA;
+        in >> dna.traits.eyeLengthB;
+        in >> dna.traits.eyeLengthC;
+        in >> dna.traits.eyeOffsetA;
+        in >> dna.traits.eyeOffsetB;
+
+        in >> dna.traits.mutationRate;
+        in >> dna.traits.splitRate;;
+
+        real32* genome = dna.genome.editWeights();
+
+        for (uint64 i = 0; i < dna.genome.getLength(); i++)
+            in >> genome[i];
+
+        m_entities.push_back(new Cell(generation, dna, randomWorldPoint(), *this));
+    }
+
+    in.close();
+}
+
 
 bool World::initialize()
 {
@@ -58,11 +146,20 @@ bool World::initialize()
     m_debugText->setPosition(0.0f, 100.0f);
     m_debugText->setCharacterSize(16);
 
-    for (int32 i = 0; i < 10; i++) {
+    loadState();
+
+    for (int32 i = 0; i < 50; i++) {
         Cell* newCell = new Cell(1, DNA(), randomWorldPoint(), *this);
         newCell->setMass(100.0f);
         m_entities.push_back(newCell);
     }
+
+    for (int32 i = 0; i < 50; i++) {
+        Fire* newCell = new Fire(randomWorldPoint(), *this);
+        newCell->setMass(100.0f);
+        m_entities.push_back(newCell);
+    }
+
 
     for (int32 i = 0; i < 250; i++)
        m_entities.push_back(new Food(randomWorldPoint(), *this));
@@ -79,6 +176,8 @@ void World::destroy()
 {
     if (m_debugText)
         delete m_debugText;
+
+    saveState();
 
     for (auto& entity : m_entities) {
         delete entity;
@@ -139,7 +238,7 @@ void World::updateEntityText()
 
 void World::onDeath(Entity* entity)
 {
-    if (entity->getType() == type::Cell) {
+    if (entity->getType() == EntityType::Cell) {
 
         Cell* cell = (Cell*)entity;
         if (cell) {
@@ -155,7 +254,7 @@ void World::onDeath(Entity* entity)
         }
 
     }
-    else if (entity->getType() == type::Resource) {
+    else if (entity->getType() == EntityType::Resource) {
 
         Resource* resource = (Resource*)entity;
         if (resource->getResourceType() == type::Food) {

@@ -10,7 +10,7 @@
 // Start the global id counter at zero.
 uint32 Entity::m_globalIdCounter = 0;
 
-Entity::Entity(vec2f location, World& world, type::EntityType type) :
+Entity::Entity(vec2f location, World& world, EntityType type) :
     m_id(m_globalIdCounter++),
     m_type(type),
     m_alive(true),

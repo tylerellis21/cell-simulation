@@ -43,6 +43,9 @@ set (SRCS
     simulation/food.h
     simulation/food.cpp
 
+    simulation/fire.h
+    simulation/fire.cpp
+
     simulation/resource.h
     simulation/resource.cpp
 

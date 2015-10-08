@@ -2,7 +2,7 @@
 #include <nex/math/mathhelper.h>
 
 Resource::Resource(real32 max, vec2f location, World& world, type::ResourceType type) :
-    Entity(location, world, type::Resource),
+    Entity(location, world, EntityType::Resource),
     m_max(max),
     m_amount(max),
     m_resourceType(type)
