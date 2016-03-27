@@ -5,6 +5,11 @@ release/
 debug/
 docs/
 
+win32_debug/
+win32_release/
+unix_debug/
+unix_release/
+
 
 data/config.json
 data/log.txt
