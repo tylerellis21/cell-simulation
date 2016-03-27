@@ -1,7 +1,7 @@
 #include "resource.h"
-#include <nex/math/mathhelper.h>
+#include <scl/math/help.h>
 
-Resource::Resource(real32 max, vec2f location, World& world, type::ResourceType type) :
+Resource::Resource(r32 max, vec2f location, World& world, type::ResourceType type) :
     Entity(location, world, EntityType::Resource),
     m_max(max),
     m_amount(max),
@@ -11,9 +11,9 @@ Resource::Resource(real32 max, vec2f location, World& world, type::ResourceType 
     m_friction = vec2f(0.98f);
 }
 
-real32 Resource::consume(real32 amount)
+r32 Resource::consume(r32 amount)
 {
-    real32 toEat = nx::clamp(amount, 0.0f, m_amount);
+    r32 toEat = clamp(amount, 0.0f, m_amount);
     m_amount -= toEat;
     return toEat;
 }

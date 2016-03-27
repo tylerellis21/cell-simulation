@@ -1,30 +1,29 @@
 #ifndef TRAITS_H_INCLUDE
 #define TRAITS_H_INCLUDE
 
-// Project includes.
-#include "../../typedefs.h"
+#include <scl/types.h>
 
-const real32 minEyeLength = 48.0f;
-const real32 maxEyeLength = 128.0f;
+const r32 minEyeLength = 48.0f;
+const r32 maxEyeLength = 128.0f;
 
 struct Traits
 {
     Traits();
 
-    int32 mutationRate;
+    i32 mutationRate;
 
-    real32 splitRate;
+    r32 splitRate;
 
-    real32 red;
-    real32 green;
-    real32 blue;
+    r32 red;
+    r32 green;
+    r32 blue;
 
-    real32 eyeOffsetA;
-    real32 eyeOffsetB;
+    r32 eyeOffsetA;
+    r32 eyeOffsetB;
 
-    real32 eyeLengthA;
-    real32 eyeLengthB;
-    real32 eyeLengthC;
+    r32 eyeLengthA;
+    r32 eyeLengthB;
+    r32 eyeLengthC;
 };
 
 #endif // TRAITS_H_INCLUDE

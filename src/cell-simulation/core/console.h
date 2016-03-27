@@ -11,8 +11,9 @@
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
+#include <scl/types.h>
+
 // Project includes.
-#include "../typedefs.h"
 #include "content.h"
 
 /**
@@ -30,17 +31,17 @@ public:
         /**
          * @brief x offset of the text item.
          */
-        int32 x;
+        i32 x;
 
         /**
          * @brief The time the console item was created.
          */
-        int32 creationTime;
+        i32 creationTime;
 
         /**
          * @brief The amount of time the console item stays alive.
          */
-        int32 lifeTime;
+        i32 lifeTime;
 
         /**
          * @brief The actual text item used to render the text string.
@@ -55,7 +56,7 @@ public:
          * @param content = The text in the string.
          * @param color = The color of the text.
          */
-        ConsoleItem(int32 x, int32 creationTime, int32 size, sf::String content, sf::Color color) :
+        ConsoleItem(i32 x, i32 creationTime, i32 size, sf::String content, sf::Color color) :
             x(x),
             creationTime(creationTime),
             lifeTime(50000)
@@ -87,7 +88,7 @@ public:
      * @param color = The color of the text (optional)
      * @param size = The size of the text (optional)
      */
-    static void write(sf::String text, sf::Color color = sf::Color::White, uint32 size = 14);
+    static void write(sf::String text, sf::Color color = sf::Color::White, u32 size = 14);
 
     /**
      * @brief Update the console.

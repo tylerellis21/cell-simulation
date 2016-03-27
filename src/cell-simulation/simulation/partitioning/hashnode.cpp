@@ -10,7 +10,7 @@ bool inList(Entity* e, std::vector<Entity*>& list)
     return false;
 }
 
-HashNode::HashNode(int32 x, int32 y) :
+HashNode::HashNode(i32 x, i32 y) :
     m_x(x),
     m_y(y),
     m_hash(hash(x, y))
@@ -41,8 +41,8 @@ void HashNode::remove(Entity* entity)
         return;
     }
 
-    const uint32 size = m_entities.size();
-    for (uint32 i = 0; i < size; i++) {
+    const u32 size = m_entities.size();
+    for (u32 i = 0; i < size; i++) {
 
         Entity* e = m_entities[i];
 
@@ -73,8 +73,8 @@ void HashNode::query(Entity* self, std::vector<Entity*>& list)
 
 void HashNode::putBounds(sf::VertexArray& array, sf::PrimitiveType type)
 {
-    real32 lX = m_x * cell_size;
-    real32 lY = m_y * cell_size;
+    r32 lX = m_x * cell_size;
+    r32 lY = m_y * cell_size;
 
     sf::Vector2f a(lX, lY);
     sf::Vector2f b(lX + cell_size, lY);

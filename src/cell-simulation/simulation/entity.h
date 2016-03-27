@@ -7,15 +7,10 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 
-// Nex includes.
-#include <nex/math/vec2.h>
-#include <nex/math/vec3.h>
+// SCL includes.
+#include <scl/math/vec2.h>
+#include <scl/math/vec3.h>
 
-using nx::vec2f;
-using nx::vec3f;
-using nx::vec2i;
-
-// Forward reference.
 class World;
 class HashNode;
 
@@ -66,7 +61,7 @@ public:
      * @brief Get the unique id of the entity.
      * @return The unique id of the entity.
      */
-    inline uint32 getId() const { return m_id; }
+    inline u32 getId() const { return m_id; }
 
     /**
      * @brief Get the type id of this entity.
@@ -96,13 +91,13 @@ public:
      * @brief Set the mass of the entity.
      * @param mass = The mass to set.
      */
-    void setMass(real32 mass) { m_mass = mass; }
+    void setMass(r32 mass) { m_mass = mass; }
 
     /**
      * @brief Get the current radius of the entity.
      * @return The radius of the entity.
      */
-    inline real32 getRadius() const { return m_radius; }
+    inline r32 getRadius() const { return m_radius; }
 
     /**
      * @brief Get the location of the entity.
@@ -120,7 +115,7 @@ public:
      * @brief Set the radius of the entity.
      * @param radius = The new radius of the entity.
      */
-    void setRadius(real32 radius) { m_radius = radius; }
+    void setRadius(r32 radius) { m_radius = radius; }
 
     vec3f getColor() const { return m_color; }
 
@@ -129,12 +124,12 @@ private:
     /**
      * @brief The global id counter, used to assign each entity a unique entity.
      */
-    static uint32 m_globalIdCounter;
+    static u32 m_globalIdCounter;
 
     /**
      * @brief The unique id of the entity.
      */
-    uint32 m_id;
+    u32 m_id;
 
     /**
      * @brief Handle the collision between two entities.
@@ -169,17 +164,17 @@ protected:
     /**
      * @brief The radius of our center.
      */
-    real32 m_radius;
+    r32 m_radius;
 
     /**
      * @brief The current rotation of the entity.
      */
-    real32 m_rotation;
+    r32 m_rotation;
 
     /**
      * @brief The mass of the entity used for collision response.
      */
-    real32 m_mass;
+    r32 m_mass;
 
     /**
      * @brief The location of the entity.

@@ -1,8 +1,9 @@
 #ifndef CELL_H_INCLUDE
 #define CELL_H_INCLUDE
 
-#include <nex/math/vec2.h>
-#include <nex/math/vec3.h>
+// SCL includes.
+#include <scl/math/vec2.h>
+#include <scl/math/vec3.h>
 
 // SFML includes.
 #include <SFML/System/Clock.hpp>
@@ -12,15 +13,10 @@
 #include "genetics/dna.h"
 #include "resource.h"
 
-using nx::vec2f;
-using nx::vec3f;
-
-
 /**
  * @brief This class represents a cell in the simulation world.
  */
-class Cell : public Entity
-{
+class Cell : public Entity {
 public:
 
     /**
@@ -29,7 +25,7 @@ public:
      * @param location = The location of the cell.
      * @param world = The world to place the cell in.
      */
-    Cell(int32 generation, DNA dna, vec2f location, World& world);
+    Cell(i32 generation, DNA dna, vec2f location, World& world);
 
     ~Cell();
 
@@ -48,13 +44,13 @@ public:
     /**
      * @brief The number of active cells in the world.
      */
-    static int32 m_cellCount;
+    static i32 m_cellCount;
 
     /**
      * @brief Get the generation number of this cell.
      * @return The generation of the cell.
      */
-    int32 getGeneration() const { return m_generation; }
+    i32 getGeneration() const { return m_generation; }
 
     DNA getDna() const { return m_dna; }
 
@@ -63,22 +59,22 @@ private:
     /**
      * @brief The current generation of the cell.
      */
-    int32 m_generation;
+    i32 m_generation;
 
     /**
      * @brief The amount of food that the cell currently has.
      */
-    real32 m_foodAmount;
+    r32 m_foodAmount;
 
     /**
      * @brief The time in seconds in at which the cell splits.
      */
-    real32 m_splitRate;
+    r32 m_splitRate;
 
     /**
      * @brief The time used to provide a constant source of input.
      */
-    real32 time = 0.0f;
+    r32 time = 0.0f;
 
     /**
      * @brief The dna data for this cell.
@@ -86,13 +82,13 @@ private:
     DNA m_dna;
 
     struct VisionResult {
-        real32 distance = 0.f;
+        r32 distance = 0.f;
         vec3f color = {0.f, 0.f, 0.f};
     };
 
     vec2f m_visionLines[6];
 
-    real32 m_memory[2] = {0.f, 0.f};
+    r32 m_memory[2] = {0.f, 0.f};
 
     /**
      * @brief Used to draw the direction line of the cell.
@@ -112,7 +108,7 @@ private:
     /**
      * @brief Calculate the vertex data used to render the round info bar.
      */
-    void calculateRoundBar(sf::VertexArray& vertexArray, const sf::Color color, const real32 value, const real32 offset);
+    void calculateRoundBar(sf::VertexArray& vertexArray, const sf::Color color, const r32 value, const r32 offset);
 
     /**
      * @brief Occurs when we collide with another entity.
@@ -126,7 +122,7 @@ private:
      * @param distance = The distance to the cell entity.
      * @param direction = The direction to the cell entity.
      */
-    void calculateClosestCell(std::vector<Entity*> list, real32& distance, real32& direction, real32 radius);
+    void calculateClosestCell(std::vector<Entity*> list, r32& distance, r32& direction, r32 radius);
 
     /**
      * @brief Calculate the closest resource entity and the associated values.
@@ -135,9 +131,9 @@ private:
      * @param direction = The direction toe the resource entity.
      * @param resourceType = The type of resource to look for.
      */
-    void calculateClosestResource(std::vector<Entity*> list, real32& distance, real32& direction, type::ResourceType resourceType);
+    void calculateClosestResource(std::vector<Entity*> list, r32& distance, r32& direction, type::ResourceType resourceType);
 
-    void calculateVision(std::vector<Entity*> list, real32* outputs);
+    void calculateVision(std::vector<Entity*> list, r32* outputs);
 
     /**
      * @brief Calculate the verteices for the direction line.

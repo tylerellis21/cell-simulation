@@ -1,18 +1,17 @@
 #ifndef RANDOMGEN_H_INCLUDE
 #define RANDOMGEN_H_INCLUDE
 
-#include <nex/math/mathhelper.h>
+#include <scl/types.h>
+#include <scl/math/help.h>
 
 #include <random>
-
-#include "../typedefs.h"
 
 class RandomGen {
 public:
 
-    static real32 randomFloat(const real32 min, const real32 max);
+    static r32 randomFloat(const r32 min, const r32 max);
 
-    static int32 randomInt(const int32 min, const int32 max);
+    static i32 randomInt(const i32 min, const i32 max);
 
 private:
 

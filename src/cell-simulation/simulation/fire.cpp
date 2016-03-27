@@ -16,7 +16,7 @@ Fire::Fire(vec2f location, World& world) :
 }
 
 
-void Fire::update(const float dt)
+void Fire::update(const r32 dt)
 {
     dtCounter += dt;
     if (dtCounter >= 1.0f) {

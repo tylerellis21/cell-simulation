@@ -19,7 +19,7 @@ public:
      * @brief The default spatial hash constructor.
      * @param worldRadius = The world radius.
      */
-    SpatialHash(const real32 worldRadius);
+    SpatialHash(const r32 worldRadius);
 
     /**
      * @brief The default spatial hash destructor.
@@ -50,7 +50,7 @@ private:
     /**
      * @brief The hash nodes used in the spatial hash.
      */
-    std::unordered_map<uint64, HashNode*> m_nodes;
+    std::unordered_map<u64, HashNode*> m_nodes;
 
     /**
      * @brief Add an entity into a node based on the hash position (does do bound checks)

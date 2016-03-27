@@ -13,7 +13,7 @@ void Console::destroy()
     m_lines.clear();
 }
 
-void Console::write(sf::String text, sf::Color color, uint32 size)
+void Console::write(sf::String text, sf::Color color, u32 size)
 {
     m_lines.push_back(new ConsoleItem(2, m_consoleClock.getElapsedTime().asMilliseconds(), size, text, color));
 
@@ -30,9 +30,9 @@ void Console::write(sf::String text, sf::Color color, uint32 size)
 
 void Console::update()
 {
-    int32 currentTime = m_consoleClock.getElapsedTime().asMilliseconds();
+    i32 currentTime = m_consoleClock.getElapsedTime().asMilliseconds();
 
-    for (int32 i = m_lines.size() - 1; i >= 0; i--) {
+    for (i32 i = m_lines.size() - 1; i >= 0; i--) {
 
         ConsoleItem* item = m_lines[i];
 
@@ -45,7 +45,7 @@ void Console::update()
 
 void Console::render(sf::RenderTarget& target)
 {
-    int32 yOffset = 200;
+    i32 yOffset = 200;
 
     for (auto& line : m_lines) {
 

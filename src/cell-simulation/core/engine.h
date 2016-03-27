@@ -16,13 +16,12 @@
 #include <string>
 
 // Project includes.
-#include "../typedefs.h"
 #include "../simulation/world.h"
 #include "camera.h"
 
 //#include "../irc/ircbot.h"
 
-const float ZOOM_MIN = 0.0001f;
+const r32 ZOOM_MIN = 0.0001f;
 
 /**
  * @brief The engine is responsible for the camera, world and events.
@@ -57,7 +56,7 @@ public:
      * @param width = The view width.
      * @param height = The view height.
      */
-    void resize(const uint32 width, const uint32 height);
+    void resize(const u32 width, const u32 height);
 
     /**
      * @brief Occurs when a key is pressed.
@@ -69,7 +68,7 @@ public:
      * @brief Update the engine.
      * @param dt = Delta time.
      */
-    void update(const float dt);
+    void update(const r32 dt);
 
     /**
      * @brief Render the engine.
@@ -82,42 +81,42 @@ private:
     /**
      * @brief The average time it takes to render one frame.
      */
-    real32 m_avgRenderTime;
+    r32 m_avgRenderTime;
 
     /**
      * @brief The counter used to keep track of the number of values in the render time accumulator.
      */
-    real32 m_avgRenderCounter;
+    r32 m_avgRenderCounter;
 
     /**
      * @brief The accumulator used to keep track of the average render time.
      */
-    real32 m_avgRenderAcc;
+    r32 m_avgRenderAcc;
 
     /**
      * @brief The average time it takes to update one frame.
      */
-    real32 m_avgUpdateTime;
+    r32 m_avgUpdateTime;
 
     /**
      * @brief The counter used to keep track of the number of the values in the update time accumulator.
      */
-    real32 m_avgUpdateCounter;
+    r32 m_avgUpdateCounter;
 
     /**
      * @brief The accumulator used to keep track of the average update time.
      */
-    real32 m_avgUpdateAcc;
+    r32 m_avgUpdateAcc;
 
     /**
      * @brief The last fps value measured.
      */
-    int32 m_fps;
+    i32 m_fps;
 
     /**
      * @brief The number of frames rendered, used to track the fps.
      */
-    int32 m_fpsTicks;
+    i32 m_fpsTicks;
 
     /**
      * @brief The timer used to track the fps.
@@ -127,12 +126,12 @@ private:
     /**
      * @brief The last index that we used for entity tracking.
      */
-    uint32 m_entityTrackingIndex;
+    u32 m_entityTrackingIndex;
 
     /**
      * @brief The max delta time the engine has encountered so far.
      */
-    real32 m_maxDeltaTime;
+    r32 m_maxDeltaTime;
 
     /**
      * @brief Used to display debug information.
@@ -182,7 +181,7 @@ private:
     /**
      * @brief Apply any keyboard movement needed.
      */
-    void applyKeyboardMovement(const float dt);
+    void applyKeyboardMovement(const r32 dt);
 
     /**
      * @brief Update the debug info.

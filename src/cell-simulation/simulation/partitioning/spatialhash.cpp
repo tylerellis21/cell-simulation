@@ -1,13 +1,13 @@
 #include "spatialhash.h"
 #include "hashutils.h"
 
-SpatialHash::SpatialHash(const real32 worldRadius)
+SpatialHash::SpatialHash(const r32 worldRadius)
 {
-    int32 cell_count = (worldRadius / cell_size) + 2;
+    i32 cell_count = (worldRadius / cell_size) + 2;
 
-    for (int32 x = -cell_count; x <= cell_count; x++) {
+    for (i32 x = -cell_count; x <= cell_count; x++) {
 
-        for (int32 y = -cell_count; y <= cell_count; y++) {
+        for (i32 y = -cell_count; y <= cell_count; y++) {
 
             HashNode* newNode = new HashNode(x, y);
 

@@ -5,12 +5,11 @@
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
-// Nex includes.
-#include <nex/math/vec2.h>
-using nx::vec2f;
+// SCL includes.
+#include <scl/types.h>
+#include <scl/math/vec3.h>
 
 // Project includes.
-#include "../typedefs.h"
 #include "../simulation/entity.h"
 
 namespace mode
@@ -44,13 +43,13 @@ public:
      * @param width = The new window width.
      * @param height = The new window height.
      */
-    void resize(const uint32 width, const uint32 height);
+    void resize(const u32 width, const u32 height);
 
     /**
      * @brief Occurs when the camera is updated.
      * @param dt = Delta time.
      */
-    void update(const float dt);
+    void update(const r32 dt);
 
     /**
      * @brief Occurs when the camera is rendered.
@@ -104,12 +103,12 @@ private:
     /**
      * @brief The speed that the camera moves at.
      */
-    real32 m_speed;
+    r32 m_speed;
 
     /**
      * @brief The speed the camera zooms at.
      */
-    real32 m_zoomSpeed;
+    r32 m_zoomSpeed;
 
     /**
      * @brief The location of the camera in free mode.

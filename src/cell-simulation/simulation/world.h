@@ -10,8 +10,9 @@
 #include <SFML/Graphics/VertexArray.hpp>
 #include <SFML/Graphics/Text.hpp>
 
+#include <scl/types.h>
+
 // Project includes.
-#include "../typedefs.h"
 #include "../core/camera.h"
 
 #include "neuralnetwork.h"
@@ -100,20 +101,20 @@ public:
      * @brief Get the worlds current radius.
      * @return The world radius.
      */
-    real32 getRadius() const { return m_radius; }
+    r32 getRadius() const { return m_radius; }
 
     /**
      * @brief Get the current count of the entities.
      * @return The current entity count.
      */
-    uint32 getEntityCount() const { return m_entities.size(); }
+    u32 getEntityCount() const { return m_entities.size(); }
 
     /**
      * @brief Get an entity by the specified index. (undefined behavior for out of range indexes)
      * @param index = The index to get the entity of.
      * @return The entity at that index.
      */
-    Entity* getEntity(uint32 index) { return m_entities[index]; }
+    Entity* getEntity(u32 index) { return m_entities[index]; }
 
     /**
      * @brief Get the entity list for the world.
@@ -141,7 +142,7 @@ public:
     /**
      * @brief The number of weight values in the neural network.
      */
-    static uint32 m_weightCount;
+    static u32 m_weightCount;
 
 private:
 
@@ -153,7 +154,7 @@ private:
     /**
      * @brief The radius of the world.
      */
-    real32 m_radius;
+    r32 m_radius;
 
     /**
      * @brief Used to render the border of the world.

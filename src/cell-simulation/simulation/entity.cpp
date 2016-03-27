@@ -4,11 +4,11 @@
 #include "partitioning/hashnode.h"
 #include "partitioning/hashutils.h"
 
-#include <nex/math/circle.h>
+#include <scl/math/circle.h>
 #include <iostream>
 
 // Start the global id counter at zero.
-uint32 Entity::m_globalIdCounter = 0;
+u32 Entity::m_globalIdCounter = 0;
 
 Entity::Entity(vec2f location, World& world, EntityType type) :
     m_id(m_globalIdCounter++),
@@ -46,7 +46,7 @@ void Entity::update(const float dt)
 
     for (auto& entity : collisionList) {
 
-        if (nx::Circle::intersects(
+        if (Circle<r32>::intersects(
                     entity->m_location, entity->m_radius,
                     m_location, m_radius)) {
 
@@ -58,7 +58,7 @@ void Entity::update(const float dt)
 
     const vec2f worldCenter = vec2f();
 
-    if (!nx::Circle::intersects(
+    if (!Circle<r32>::intersects(
              worldCenter, m_world.getRadius() - m_radius * 2.0f,
              m_location, m_radius)) {
 
@@ -95,9 +95,9 @@ void Entity::handleCollision(Entity* a, Entity* b)
         return;
     }
 
-    real32 m1 = a->m_mass;
-    real32 m2 = b->m_mass;
-    real32 sum = m1 + m2;
+    r32 m1 = a->m_mass;
+    r32 m2 = b->m_mass;
+    r32 sum = m1 + m2;
 
     a->m_velocity = (u1 * (m1 - m2) + (2.0f * m2 * u2)) / sum;
     b->m_velocity = (u2 * (m2 - m1) + (2.0f * m1 * u1)) / sum;

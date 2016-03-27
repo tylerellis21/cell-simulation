@@ -8,27 +8,26 @@
 #include "../mathutils.h"
 #include "randomgen.h"
 
-#include <nex/math/mathhelper.h>
+#include <scl/math/help.h>
 
 #include <iostream>
 #include <limits>
 #include <sstream>
 
-const real32 CELL_MAX_MASS = 100.0f;
-const real32 CELL_MAX_FOOD = 100.0f;
-const real32 CELL_MAX_RADIUS = 30.0f;
+const r32 CELL_MAX_MASS = 100.0f;
+const r32 CELL_MAX_FOOD = 100.0f;
+const r32 CELL_MAX_RADIUS = 30.0f;
 
-
-float IntegerNoise (int n)
+r32 IntegerNoise (i32 n)
 {
   n = (n >> 13) ^ n;
-  int nn = (n * (n * n * 60493 + 19990303) + 1376312589) & 0x7fffffff;
-  return 1.0f - ((float)nn / 1073741824.0f);
+  i32 nn = (n * (n * n * 60493 + 19990303) + 1376312589) & 0x7fffffff;
+  return 1.0f - ((r32)nn / 1073741824.0f);
 }
 
-int32 Cell::m_cellCount = 0;
+i32 Cell::m_cellCount = 0;
 
-Cell::Cell(int32 generation, DNA dna, vec2f location, World& world) :
+Cell::Cell(i32 generation, DNA dna, vec2f location, World& world) :
     Entity(location, world, EntityType::Cell),
     m_generation(generation),
     m_foodAmount(CELL_MAX_FOOD),
@@ -74,13 +73,13 @@ void Cell::update(const float dt)
     std::vector<Entity*> nearList = getNearEntities(true);
 
     const vec2f closestWallPoint = closestCirclePoint(vec2f(), m_world.getRadius(), m_location);
-    const real32 wallDist = vec2f::distance(closestWallPoint, m_location);
-    const real32 wallDir = m_rotation - vec2f::direction(closestWallPoint, m_location);
+    const r32 wallDist = vec2f::distance(closestWallPoint, m_location);
+    const r32 wallDir = m_rotation - vec2f::direction(closestWallPoint, m_location);
 
-    //const real32 pi2 = nx::Pi * 2.0f;
-    const real32 worldRadius = m_world.getRadius();
+    //const r32 pi2 = nx::Pi * 2.0f;
+    const r32 worldRadius = m_world.getRadius();
 
-    real32 visionValues[12];
+    r32 visionValues[12];
 
     for (auto& value : visionValues)
         value = 0;
@@ -88,17 +87,17 @@ void Cell::update(const float dt)
     caculateVisionLines();
     calculateVision(nearList, visionValues);
 
-    real32 inputs[19];
+    r32 inputs[19];
 
-    inputs[0] = normalize(m_rotation, -nx::Pi, nx::Pi);
+    inputs[0] = normalize(m_rotation, -Pi, Pi);
     inputs[1] = normalize(m_radius, 1.0f, CELL_MAX_RADIUS);
     inputs[2] = normalize(m_foodAmount, 0.0f, CELL_MAX_FOOD);
     inputs[3] = normalize(wallDist, 0.0f, worldRadius);
-    inputs[4] = normalize(wallDir, -nx::Pi, nx::Pi);
+    inputs[4] = normalize(wallDir, -Pi, Pi);
     inputs[5] = m_memory[0];
     inputs[6] = m_memory[1];
 
-    for (uint32 i = 0; i < 12; i++)
+    for (u32 i = 0; i < 12; i++)
         inputs[i + 7] = visionValues[i];
 
     NeuralNetwork* network = World::m_neuralNetwork;
@@ -113,18 +112,18 @@ void Cell::update(const float dt)
     // Compute the output values.
     network->computeOutputs(inputs);
 
-    const real32* output = network->getOutputs();
+    const r32* output = network->getOutputs();
 
-    const real32 forward = output[0] * 300.f;
-    const real32 turnLeft = output[2];
-    const real32 turnRight = output[3];
+    const r32 forward = output[0] * 300.f;
+    const r32 turnLeft = output[2];
+    const r32 turnRight = output[3];
 
 
     m_memory[0] = output[4];
     m_memory[1] = output[5];
 
-    m_rotation += turnRight / nx::Pi;
-    m_rotation -= turnLeft / nx::Pi;
+    m_rotation += turnRight / Pi;
+    m_rotation -= turnLeft / Pi;
 
     m_velocity.x += std::cos(m_rotation) * forward * dt;
     m_velocity.y += std::sin(m_rotation) * forward * dt;
@@ -133,8 +132,8 @@ void Cell::update(const float dt)
     m_foodAmount -= 1.0f * dt;
 
     // Clamp to the specific range.
-    m_foodAmount = nx::clamp(m_foodAmount, 0.0f, CELL_MAX_FOOD);
-    m_mass = nx::clamp(m_mass, 1.0f, CELL_MAX_MASS);
+    m_foodAmount = clamp(m_foodAmount, 0.0f, CELL_MAX_FOOD);
+    m_mass = clamp(m_mass, 1.0f, CELL_MAX_MASS);
 
     // The cell considered dead when it is out of water, or it has left the world.
     if (m_foodAmount < 1.0f || m_mass < 2.0f)
@@ -157,15 +156,15 @@ void Cell::update(const float dt)
 
 void Cell::splitCell()
 {
-    const real32 timePassed = m_cellSplitClock.getElapsedTime().asSeconds();
+    const r32 timePassed = m_cellSplitClock.getElapsedTime().asSeconds();
 
     if (timePassed >= m_splitRate || (m_foodAmount >= 10.0f && timePassed >= 10.0f)) {
 
-        const real32 pi2 = nx::Pi * 2.0f;
-        const real32 randomRad = RandomGen::randomFloat(0.0f, 2.0f * nx::Pi);
+        const r32 pi2 = Pi * 2.0f;
+        const r32 randomRad = RandomGen::randomFloat(0.0f, 2.0f * Pi);
 
         // Add some padding so the new cell doesn't get stuck to us.
-        const real32 diameter = (m_radius * 2.0f) + 10.0f;
+        const r32 diameter = (m_radius * 2.0f) + 10.0f;
 
         int tries = 0;
         vec2f newLocation;
@@ -185,7 +184,7 @@ void Cell::splitCell()
 
         Cell* baby = new Cell(m_generation + 1, Breeder::replicate(m_dna), newLocation, m_world);
 
-        const real32 halfMass = m_mass * 0.5f;
+        const r32 halfMass = m_mass * 0.5f;
 
         baby->m_mass = halfMass;
         m_mass = halfMass;
@@ -202,10 +201,10 @@ void Cell::splitCell()
     }
 }
 
-void Cell::calculateClosestCell(std::vector<Entity*> list, real32& distance, real32& direction, real32 radius)
+void Cell::calculateClosestCell(std::vector<Entity*> list, r32& distance, r32& direction, r32 radius)
 {
     Entity* found = 0;
-    real32 distSq = std::numeric_limits<real32>::max();
+    r32 distSq = std::numeric_limits<r32>::max();
 
     for (auto& entity : list) {
 
@@ -227,10 +226,10 @@ void Cell::calculateClosestCell(std::vector<Entity*> list, real32& distance, rea
     }
 }
 
-void Cell::calculateClosestResource(std::vector<Entity*> list, real32& distance, real32& direction, type::ResourceType resourceType)
+void Cell::calculateClosestResource(std::vector<Entity*> list, r32& distance, r32& direction, type::ResourceType resourceType)
 {
     Entity* found = 0;
-    real32 distSq = std::numeric_limits<real32>::max();
+    r32 distSq = std::numeric_limits<r32>::max();
 
     for (auto& entity : list) {
 
@@ -253,8 +252,8 @@ void Cell::calculateClosestResource(std::vector<Entity*> list, real32& distance,
 
 void Cell::caculateVisionLines()
 {
-    const real32 rotationA = m_rotation - m_dna.traits.eyeOffsetA;
-    const real32 rotationB = m_rotation + m_dna.traits.eyeOffsetB;
+    const r32 rotationA = m_rotation - m_dna.traits.eyeOffsetA;
+    const r32 rotationB = m_rotation + m_dna.traits.eyeOffsetB;
 
     // TODO: Remove the trig functions here.
 
@@ -263,15 +262,15 @@ void Cell::caculateVisionLines()
     m_visionLines[2] = m_location + vec2f(std::cos(rotationB) * m_dna.traits.eyeLengthC, std::sin(rotationB) * m_dna.traits.eyeLengthC);
 }
 
-void Cell::calculateVision(std::vector<Entity*> list, real32* outputs)
+void Cell::calculateVision(std::vector<Entity*> list, r32* outputs)
 {
     VisionResult results[3];
 
     for (auto& entity : list) {
 
-        real32 distA = 0;
-        real32 distB = 0;
-        real32 distC = 0;
+        r32 distA = 0;
+        r32 distB = 0;
+        r32 distC = 0;
 
         bool intersectA =
                 circleLineIntersect(m_location, m_visionLines[0], entity->getLocation(), entity->getRadius(), &distA);
@@ -298,7 +297,7 @@ void Cell::calculateVision(std::vector<Entity*> list, real32* outputs)
         }
     }
 
-    for (uint32 offset = 0, i = 0; i < 4; i++, offset += 4) {
+    for (u32 offset = 0, i = 0; i < 4; i++, offset += 4) {
         outputs[offset] = results[i].distance;
         outputs[offset+1] = results[i].color.x;
         outputs[offset+2] = results[i].color.y;
@@ -310,7 +309,7 @@ void Cell::caculateDebugLines()
 {
     m_debugLines.clear();
 
-    real32 length = (m_velocity.length() / 500.0f) + 8.0f;
+    r32 length = (m_velocity.length() / 500.0f) + 8.0f;
     vec2f newPoint = (length) * vec2f::normalize(m_velocity);
 
     sf::Vector2f pointA(m_location.x, m_location.y);
@@ -329,16 +328,16 @@ void Cell::caculateDebugLines()
     m_debugLines.append(sf::Vertex(sf::Vector2f(m_visionLines[2].x, m_visionLines[2].y), sf::Color::Blue));
 }
 
-void Cell::calculateRoundBar(sf::VertexArray& vertexArray, const sf::Color color, const real32 value, const real32 offset)
+void Cell::calculateRoundBar(sf::VertexArray& vertexArray, const sf::Color color, const r32 value, const r32 offset)
 {
     vertexArray.clear();
 
-    const real32 pi2 = nx::Pi * 2.0f;
-    const real32 step = pi2 / 16.0f;
+    const r32 pi2 = Pi * 2.0f;
+    const r32 step = pi2 / 16.0f;
 
-    const real32 stopAt = nx::clamp((value / CELL_MAX_FOOD) * pi2, 0.0f, pi2);
+    const r32 stopAt = clamp((value / CELL_MAX_FOOD) * pi2, 0.0f, pi2);
 
-    for (real32 radians = 0; radians <= stopAt; radians += step) {
+    for (r32 radians = 0; radians <= stopAt; radians += step) {
 
         vec2f point = vec2f(std::cos(radians) * (m_radius + offset),
                             std::sin(radians) * (m_radius + offset));

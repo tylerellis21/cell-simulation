@@ -1,8 +1,9 @@
 #ifndef GENOME_H_INCLUDE
 #define GENOME_H_INCLUDE
 
+#include <scl/types.h>
+
 // Project includes.
-#include "../../typedefs.h"
 #include "../../mathutils.h"
 #include "../randomgen.h"
 /**
@@ -53,37 +54,37 @@ public:
      * @brief Get a pointer to the weights which can be written to here.
      * @return A pointer to the data.
      */
-    real32* editWeights() { return m_weights; }
+    r32* editWeights() { return m_weights; }
 
     /**
      * @brief Get a read only pointer to the weight data.
      * @return A const pointer to the data.
      */
-    const real32* readWeights() const { return m_weights; }
+    const r32* readWeights() const { return m_weights; }
 
     /**
      * @brief Get the length of the genome float array.
      * @return The length of the array.
      */
-    int32 getLength() const { return m_length; }
+    i32 getLength() const { return m_length; }
 
     /**
      * @brief Generate a random inital genome weight.
      * @return The random weight value.
      */
-    inline static real32 randomGenomeWeight() { return RandomGen::randomFloat(-1.0f, 1.0f); }
+    inline static r32 randomGenomeWeight() { return RandomGen::randomFloat(-1.0f, 1.0f); }
 
 private:
 
     /**
      * @brief The length of the weight array.
      */
-    uint32 m_length;
+    u32 m_length;
 
     /**
      * @brief The actual genome data buffer.
      */
-    real32* m_weights;
+    r32* m_weights;
 };
 
 #endif // GENOME_H_INCLUDE

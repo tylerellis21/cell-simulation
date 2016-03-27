@@ -15,7 +15,7 @@
 #include <fstream>
 
 NeuralNetwork* World::m_neuralNetwork = 0;
-uint32 World::m_weightCount = 0;
+u32 World::m_weightCount = 0;
 
 /*
  * Simulate like a colony
@@ -51,7 +51,7 @@ void World::saveState()
     if (!out.is_open())
         return;
 
-    uint64 entityCount = 0;
+    u64 entityCount = 0;
 
     for (Entity* e : m_entities)
         if (e->getType() == EntityType::Cell)
@@ -79,9 +79,9 @@ void World::saveState()
         out << dna.traits.mutationRate << std::endl;
         out << dna.traits.splitRate << std::endl;
 
-        const real32* genome = dna.genome.readWeights();
+        const r32* genome = dna.genome.readWeights();
 
-        for (uint64 i = 0; i < dna.genome.getLength(); i++)
+        for (u64 i = 0; i < dna.genome.getLength(); i++)
             out << genome[i] << std::endl;
     }
 
@@ -96,13 +96,13 @@ void World::loadState()
     if (!in.is_open())
         return;
 
-    uint64 entityCount = 0;
+    u64 entityCount = 0;
     in >> entityCount;
 
-    for (uint64 i = 0; i < entityCount; i++) {
+    for (u64 i = 0; i < entityCount; i++) {
         DNA dna;
 
-        int32 generation = 0;
+        i32 generation = 0;
 
         in >> generation;
         in >> dna.traits.red;
@@ -117,9 +117,9 @@ void World::loadState()
         in >> dna.traits.mutationRate;
         in >> dna.traits.splitRate;;
 
-        real32* genome = dna.genome.editWeights();
+        r32* genome = dna.genome.editWeights();
 
-        for (uint64 i = 0; i < dna.genome.getLength(); i++)
+        for (u64 i = 0; i < dna.genome.getLength(); i++)
             in >> genome[i];
 
         m_entities.push_back(new Cell(generation, dna, randomWorldPoint(), *this));
@@ -148,20 +148,20 @@ bool World::initialize()
 
     loadState();
 
-    for (int32 i = 0; i < 50; i++) {
+    for (i32 i = 0; i < 50; i++) {
         Cell* newCell = new Cell(1, DNA(), randomWorldPoint(), *this);
         newCell->setMass(100.0f);
         m_entities.push_back(newCell);
     }
 
-    for (int32 i = 0; i < 50; i++) {
+    for (i32 i = 0; i < 50; i++) {
         Fire* newCell = new Fire(randomWorldPoint(), *this);
         newCell->setMass(100.0f);
         m_entities.push_back(newCell);
     }
 
 
-    for (int32 i = 0; i < 250; i++)
+    for (i32 i = 0; i < 250; i++)
        m_entities.push_back(new Food(randomWorldPoint(), *this));
 
     m_spatialHash.buildArray(m_vertexQuadArray, sf::Quads);
@@ -191,7 +191,7 @@ void World::update(const float dt)
     bool hasChanged = false;
     bool entityDied = false;
 
-    for (int32 i = m_entities.size() - 1; i >= 0; i--) {
+    for (i32 i = m_entities.size() - 1; i >= 0; i--) {
         Entity* entity = m_entities[i];
         if (entity->isAlive()) {
 
@@ -289,7 +289,7 @@ void World::render(sf::RenderTarget& target, Camera& camera, const sf::View& tex
 vec2f World::randomWorldPoint()
 {
     // Generate a random angle between 0 and 2(Pi).
-    const real32 theta = RandomGen::randomFloat(0.0f, nx::Pi * 2.0f);
+    const r32 theta = RandomGen::randomFloat(0.0f, Pi * 2.0f);
     return vec2f(std::cos(theta) * RandomGen::randomFloat(0.0f, m_radius),
                  std::sin(theta) * RandomGen::randomFloat(0.0f, m_radius));
 }

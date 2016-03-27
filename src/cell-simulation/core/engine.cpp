@@ -75,7 +75,7 @@ void Engine::destroy()
     Content::destroy();
 }
 
-void Engine::resize(const uint32 width, const uint32 height)
+void Engine::resize(const u32 width, const u32 height)
 {
     m_textView = sf::View(sf::FloatRect(sf::Vector2f(), sf::Vector2f(width, height)));
     m_camera.resize(width, height);
@@ -109,7 +109,7 @@ void Engine::keyPress(sf::Event::KeyEvent e)
 
         Entity* entity = m_world.getEntity(m_entityTrackingIndex);
 
-        uint32 counter = 0;
+        u32 counter = 0;
         while(entity->getType() != EntityType::Cell && counter < m_world.getEntityCount()) {
            m_entityTrackingIndex = (m_entityTrackingIndex + 1) % m_world.getEntityCount();
            entity = m_world.getEntity(m_entityTrackingIndex);
@@ -121,7 +121,7 @@ void Engine::keyPress(sf::Event::KeyEvent e)
     }
 }
 
-void Engine::update(const float dt)
+void Engine::update(const r32 dt)
 {
     // Begin the measuring the time for this update cycle.
     m_updateTimer.restart();

@@ -18,11 +18,11 @@ public:
      */
     Fire(vec2f location, World& world);
 
-    void update(const float dt);
+    void update(const r32 dt);
 
 private:
 
-    real32 dtCounter = 0;
+    r32 dtCounter = 0;
 };
 
 #endif // FIRE_H_INCLUDE

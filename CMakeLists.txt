@@ -15,6 +15,8 @@ set (SFML_BUILD_DOC false)
 set (SFML_BUILD_EXAMPLES false)
 set (BUILD_SHARED_LIBS false)
 
+add_definitions(-DSFML_STATIC)
+
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
@@ -38,7 +40,7 @@ endif()
 # Set the exe to be in the proper folder.
 set (EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
-add_subdirectory (lib/sfml)
-add_subdirectory (lib/nex)
+add_subdirectory (lib/SFML)
+add_subdirectory (lib/scl)
 add_subdirectory (src)
 

@@ -1,14 +1,9 @@
 #ifndef HASHUTILS_H_INCLUDE
 #define HASHUTILS_H_INCLUDE
 
-// Nex includes.
-#include <nex/math/vec2.h>
-
-using nx::vec2f;
-using nx::vec2i;
-
-// Project includes.
-#include <nex/system/typedefs.h>
+// SCL includes.
+#include <scl/types.h>
+#include <scl/math/vec2.h>
 
 /**
  * @brief Hash two integer values into one unsigned 64 bit value.
@@ -16,7 +11,7 @@ using nx::vec2i;
  * @param y = The y value.
  * @return the unique hash for the two integer values.
  */
-uint64 hash(int32 x, int32 y);
+u64 hash(i32 x, i32 y);
 
 /**
  * @brief Calculate the node coordinates based on the given world location.

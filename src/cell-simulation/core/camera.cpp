@@ -10,7 +10,7 @@ Camera::Camera() :
     m_trackingEntity(0)
 { }
 
-void Camera::resize(const uint32 width, const uint32 height)
+void Camera::resize(const u32 width, const u32 height)
 {
     m_view.setSize(width, height);
 }
@@ -21,7 +21,7 @@ void Camera::trackEntity(Entity* entity)
     m_trackingEntity = entity;
 }
 
-void Camera::update(const float dt)
+void Camera::update(const r32 dt)
 {
     // If we are in the tracking mode,
     // Update our position to be the same as the entities position as long as it is valid.

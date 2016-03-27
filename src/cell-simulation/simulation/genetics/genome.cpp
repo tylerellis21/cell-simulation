@@ -6,8 +6,8 @@
 // Project includes.
 #include "../world.h"
 
-// Nex includes.
-#include <nex/math/mathhelper.h>
+// SCL includes.
+#include <scl/math/help.h>
 
 // Here we are adding two extra values to the genome data.
 // The first two values are the split rate, and the genome mutation rate.
@@ -16,10 +16,9 @@
 // Default constructor.
 Genome::Genome() :
     m_length(World::m_weightCount),
-    m_weights(new real32[World::m_weightCount])
-{
+    m_weights(new r32[World::m_weightCount]) {
     // Move theses first values into a trait class?
-    for (uint32 i = 0; i < m_length; i++) {
+    for (u32 i = 0; i < m_length; i++) {
         m_weights[i] = Genome::randomGenomeWeight();
     }
 }
@@ -27,22 +26,19 @@ Genome::Genome() :
 // Copy constructor.
 Genome::Genome(const Genome& other) :
     m_length(other.m_length),
-    m_weights(new real32[other.m_length])
-{
+    m_weights(new r32[other.m_length]) {
     std::copy(other.m_weights, other.m_weights + m_length, m_weights);
 }
 
 // Move constructor.
 Genome::Genome(Genome&& other) :
     m_length(0),
-    m_weights(0)
-{
+    m_weights(0) {
     *this = std::move(other);
 }
 
 // Default destructor.
-Genome::~Genome()
-{
+Genome::~Genome() {
     if (m_weights) {
         delete [] m_weights;
         m_weights = 0;
@@ -50,8 +46,7 @@ Genome::~Genome()
 }
 
 // Copy assignment operator.
-Genome& Genome::operator=(const Genome& other)
-{
+Genome& Genome::operator=(const Genome& other) {
     if (this != &other) {
 
         if (m_weights) {
@@ -60,7 +55,7 @@ Genome& Genome::operator=(const Genome& other)
         }
 
         m_length = other.m_length;
-        m_weights = new real32[m_length];
+        m_weights = new r32[m_length];
 
         std::copy(other.m_weights, other.m_weights + m_length, m_weights);
     }
@@ -69,8 +64,7 @@ Genome& Genome::operator=(const Genome& other)
 }
 
 // Move assignment operator.
-Genome& Genome::operator =(Genome&& other)
-{
+Genome& Genome::operator =(Genome&& other) {
     if (this != &other) {
 
         if (m_weights) {

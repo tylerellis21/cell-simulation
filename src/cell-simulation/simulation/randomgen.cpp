@@ -3,19 +3,12 @@
 std::random_device RandomGen::m_device;
 std::mt19937 RandomGen::m_engine(m_device());
 
-/*static std::uniform_real_distribution<real32> m_realDist;
-    static std::uniform_real_distribution<real32> m_piDist;
-    static std::uniform_int_distribution<int32> m_intDist;*/
-
-
-real32 RandomGen::randomFloat(const real32 min, const real32 max)
-{
-    std::uniform_real_distribution<real32> dist(min, max);
+r32 RandomGen::randomFloat(const r32 min, const r32 max) {
+    std::uniform_real_distribution<r32> dist(min, max);
     return dist(m_engine);
 }
 
-int32 RandomGen::randomInt(const int32 min, const int32 max)
-{
-    std::uniform_int_distribution<int32> dist(min, max);
+i32 RandomGen::randomInt(const i32 min, const i32 max) {
+    std::uniform_int_distribution<i32> dist(min, max);
     return dist(m_engine);
 }

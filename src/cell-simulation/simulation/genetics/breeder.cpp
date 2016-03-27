@@ -13,30 +13,30 @@ DNA Breeder::replicate(const DNA& parent)
     newTraits.mutationRate = parent.traits.mutationRate + RandomGen::randomInt(-5, 5);
 
     newTraits.splitRate =
-            nx::clamp(parent.traits.splitRate + RandomGen::randomFloat(-2.0f, 2.0f),
+            clamp(parent.traits.splitRate + RandomGen::randomFloat(-2.0f, 2.0f),
                       30.0f, 100.0f);
 
-    const real32 colorChange = 0.01f;
+    const r32 colorChange = 0.01f;
 
-    newTraits.red = nx::clamp(parent.traits.red + RandomGen::randomFloat(-colorChange, colorChange), 0.f, 1.f);
-    newTraits.green = nx::clamp(parent.traits.green + RandomGen::randomFloat(-colorChange, colorChange), 0.f, 1.f);
-    newTraits.blue = nx::clamp(parent.traits.blue + RandomGen::randomFloat(-colorChange, colorChange), 0.f, 1.f);
+    newTraits.red = clamp(parent.traits.red + RandomGen::randomFloat(-colorChange, colorChange), 0.f, 1.f);
+    newTraits.green = clamp(parent.traits.green + RandomGen::randomFloat(-colorChange, colorChange), 0.f, 1.f);
+    newTraits.blue = clamp(parent.traits.blue + RandomGen::randomFloat(-colorChange, colorChange), 0.f, 1.f);
 
-    const real32 eyeLengthChange = 0.001f;
+    const r32 eyeLengthChange = 0.001f;
 
-    newTraits.eyeLengthA = nx::clamp(parent.traits.eyeLengthA + RandomGen::randomFloat(-eyeLengthChange, eyeLengthChange),
+    newTraits.eyeLengthA = clamp(parent.traits.eyeLengthA + RandomGen::randomFloat(-eyeLengthChange, eyeLengthChange),
                                      minEyeLength, maxEyeLength);
 
-    newTraits.eyeLengthB = nx::clamp(parent.traits.eyeLengthB + RandomGen::randomFloat(-eyeLengthChange, eyeLengthChange),
+    newTraits.eyeLengthB = clamp(parent.traits.eyeLengthB + RandomGen::randomFloat(-eyeLengthChange, eyeLengthChange),
                                      minEyeLength, maxEyeLength);
 
-    newTraits.eyeLengthC = nx::clamp(parent.traits.eyeLengthC + RandomGen::randomFloat(-eyeLengthChange, eyeLengthChange),
+    newTraits.eyeLengthC = clamp(parent.traits.eyeLengthC + RandomGen::randomFloat(-eyeLengthChange, eyeLengthChange),
                                      minEyeLength, maxEyeLength);
 
-    const real32 eyeOffsetChange = 0.001f;
+    const r32 eyeOffsetChange = 0.001f;
 
-    newTraits.eyeOffsetA = nx::clamp(parent.traits.eyeOffsetA + RandomGen::randomFloat(-eyeOffsetChange, eyeOffsetChange), 0.f, nx::PiOver4);
-    newTraits.eyeOffsetB = nx::clamp(parent.traits.eyeOffsetB + RandomGen::randomFloat(-eyeOffsetChange, eyeOffsetChange), 0.f, nx::PiOver4);
+    newTraits.eyeOffsetA = clamp(parent.traits.eyeOffsetA + RandomGen::randomFloat(-eyeOffsetChange, eyeOffsetChange), 0.f, PiOver4);
+    newTraits.eyeOffsetB = clamp(parent.traits.eyeOffsetB + RandomGen::randomFloat(-eyeOffsetChange, eyeOffsetChange), 0.f, PiOver4);
 
     // Copy directly
     // Copy with an offset
@@ -49,15 +49,15 @@ Genome Breeder::replicateGenome(const DNA& parent)
 {
     Genome newGenome;
 
-    const real32* parentWeights = parent.genome.readWeights();
+    const r32* parentWeights = parent.genome.readWeights();
 
-    real32* weights = newGenome.editWeights();
+    r32* weights = newGenome.editWeights();
 
-    int32 mutationCount = 0;
+    i32 mutationCount = 0;
 
-    for (uint32 i = 0; i < newGenome.getLength(); i++) {
+    for (u32 i = 0; i < newGenome.getLength(); i++) {
 
-        const int32 dice = RandomGen::randomInt(0, parent.traits.mutationRate);
+        const i32 dice = RandomGen::randomInt(0, parent.traits.mutationRate);
         if (dice >= 670) {
             weights[i] = parentWeights[i];
         }

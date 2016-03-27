@@ -8,15 +8,14 @@
 #include <SFML/Graphics/VertexArray.hpp>
 
 // Nex includes.
-#include <nex/math/rect.h>
-using nx::rectf;
+#include <scl/math/rect.h>
 
 // Project includes.
 #include "../entity.h"
 
 // Adjust this based on the maximum cell size and the radius of the world.
 // Kind of a balancing act really.
-const int32 cell_size = 64.0f;
+const i32 cell_size = 64.0f;
 
 /**
  * @brief This class represents on cell node in the spatial hash.
@@ -30,7 +29,7 @@ public:
      * @param x = The x location of the node.
      * @param y = The y location of the node.
      */
-    HashNode(int32 x, int32 y);
+    HashNode(i32 x, i32 y);
 
     /**
      * @brief Add an entity into the hash node.
@@ -54,19 +53,19 @@ public:
      * @brief Get the x coordinate of the node.
      * @return The x coordinate node.
      */
-    int32 getX() const { return m_x; }
+    i32 getX() const { return m_x; }
 
     /**
      * @brief Get the y coordinate of the node.
      * @return The y coordinate node.
      */
-    int32 getY() const { return m_y; }
+    i32 getY() const { return m_y; }
 
     /**
      * @brief Get the hash value for this node.
      * @return The hash value for the node.
      */
-    uint64 getHash() const { return m_hash; }
+    u64 getHash() const { return m_hash; }
 
     /**
      * @brief Put the vertex data used to debug the spatial hash.
@@ -80,17 +79,17 @@ private:
     /**
      * @brief The x location of the hash node.
      */
-    int32 m_x;
+    i32 m_x;
 
     /**
      * @brief The y location of the hash node.
      */
-    int32 m_y;
+    i32 m_y;
 
     /**
      * @brief The hash value of the node.
      */
-    uint64 m_hash;
+    u64 m_hash;
 
     /**
      * @brief The bounds of the hash node.
