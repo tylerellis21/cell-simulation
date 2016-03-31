@@ -148,8 +148,8 @@ bool World::initialize()
 
     loadState();
 
-	if (m_entities.size() > 0) {
-		for (i32 i = 0; i < 50; i++) {
+	if (m_entities.size() < 50) {
+		for (i32 i = 0; i < m_entities.size()-50; i++) {
 			Cell* newCell = new Cell(1, DNA(), randomWorldPoint(), *this);
 			newCell->setMass(100.0f);
 			m_entities.push_back(newCell);
@@ -250,8 +250,8 @@ void World::onDeath(Entity* entity)
 
             //Console::write(sb.str());
 
-            if (Cell::m_cellCount <= 50) {
-                //m_entities.push_back(new Cell(1, DNA(), randomWorldPoint(), *this));
+            if (Cell::m_cellCount <= 10) {
+				m_entities.push_back(new Cell(1, DNA(), randomWorldPoint(), *this));
             }
         }
 
