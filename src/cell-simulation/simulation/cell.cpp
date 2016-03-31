@@ -129,7 +129,7 @@ void Cell::update(const float dt)
     m_velocity.y += std::sin(m_rotation) * forward * dt;
 
     // Our constant food loss.
-    m_foodAmount -= 1.0f * dt;
+    m_foodAmount -= 5.0f * dt;
 
     // Clamp to the specific range.
     m_foodAmount = clamp(m_foodAmount, 0.0f, CELL_MAX_FOOD);
@@ -310,7 +310,7 @@ void Cell::caculateDebugLines()
     m_debugLines.clear();
 
     r32 length = (m_velocity.length() / 500.0f) + 8.0f;
-    vec2f newPoint = (length) * vec2f::normalize(m_velocity);
+    vec2f newPoint = (length) * vec2f::normalizeOrZero(m_velocity);
 
     sf::Vector2f pointA(m_location.x, m_location.y);
     sf::Vector2f pointB(newPoint.x, newPoint.y);

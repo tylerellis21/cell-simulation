@@ -148,11 +148,13 @@ bool World::initialize()
 
     loadState();
 
-    for (i32 i = 0; i < 50; i++) {
-        Cell* newCell = new Cell(1, DNA(), randomWorldPoint(), *this);
-        newCell->setMass(100.0f);
-        m_entities.push_back(newCell);
-    }
+	if (m_entities.size() > 0) {
+		for (i32 i = 0; i < 50; i++) {
+			Cell* newCell = new Cell(1, DNA(), randomWorldPoint(), *this);
+			newCell->setMass(100.0f);
+			m_entities.push_back(newCell);
+		}
+	}
 
     for (i32 i = 0; i < 50; i++) {
         Fire* newCell = new Fire(randomWorldPoint(), *this);

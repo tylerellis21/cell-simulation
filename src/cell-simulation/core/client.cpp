@@ -1,5 +1,5 @@
 #include "client.h"
-
+#include <stdio.h>
 #include <util/log.h>
 #include "config.h"
 

@@ -62,7 +62,7 @@ void Entity::update(const float dt)
              worldCenter, m_world.getRadius() - m_radius * 2.0f,
              m_location, m_radius)) {
 
-        vec2f normal = vec2f::normalize(worldCenter - m_location);
+        vec2f normal = vec2f::normalizeOrZero(worldCenter - m_location);
 
         m_velocity = m_velocity - (normal * 2.0f * vec2f::dot(normal, m_velocity));
 
